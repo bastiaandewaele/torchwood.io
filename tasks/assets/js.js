@@ -14,7 +14,7 @@ const source = require('vinyl-source-stream');
 const bootstrap = require("../../bootstrap");
 
 // Properties
-const settings = bootstrap.settings();
+const settings = bootstrap.settings;
 const js = bootstrap.js;
 
 // tasks for sass and js:
@@ -38,7 +38,7 @@ module.exports = {
 
                 // use browserify and babelify to support import and export syntax
                 let bundler = browserify({
-                    entries: path.join(bootstrap.src, value),
+                    entries: path.join(bootstrap.src+"/js", value),
                     debug: true,
                     cwd: bootstrap.src + "/js" // use src/js directory as main directory              
                 });

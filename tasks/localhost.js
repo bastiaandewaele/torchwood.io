@@ -5,7 +5,7 @@ const browserSync = require('browser-sync').create();
 
 // Custom code
 const bootstrap = require("../bootstrap");
-const settings = bootstrap.settings();
+const settings = bootstrap.settings;
 
 module.exports.browserSync = browserSync;
 

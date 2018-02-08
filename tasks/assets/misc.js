@@ -6,7 +6,7 @@ const fs = require("fs");
 const bootstrap = require("../../bootstrap");
 
 // Properties
-const settings = bootstrap.settings();
+const settings = bootstrap.settings;
 
 // Generate a list 
 let watchFiles = [

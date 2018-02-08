@@ -3,7 +3,7 @@ const nunjucks = require('gulp-nunjucks');
 
 // Custom code
 const bootstrap = require("../bootstrap");
-const settings = bootstrap.settings();
+const settings = bootstrap.settings;
 
 module.exports.watchFiles = [
     "*.html", 

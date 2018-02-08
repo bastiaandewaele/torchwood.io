@@ -10,11 +10,11 @@ const autoprefixer = require("gulp-autoprefixer");
 const bootstrap = require("../../bootstrap");
 
 // Properties
-const settings = bootstrap.settings();
-const sassAssets = bootstrap.sass;
+const settings = bootstrap.settings;
+const files = bootstrap.sass;
 
 module.exports = {
-    files: sassAssets,
+    files,
     watchFiles: [
         "*.sass", 
         "**/*.sass", 
@@ -27,22 +27,25 @@ module.exports = {
     ],
     task() {
         let gulp = this;
-
-        if (sassAssets.size > 0) {
-            for (var [key, value] of sassAssets) {        
+        if (files.size > 0) {
+            for (var [key, value] of files) {        
                 let exportDirectory = path.dirname(path.join(bootstrap.cwd, settings.export, key));      
-        
+                if (!fs.existsSync(path.join(bootstrap.src+"/sass", value))) {
+                    console.log("stop", path.join(bootstrap.src+"/sass", value));
+                    process.exit();
+                }
+
                 gulp
-                .src(path.join(bootstrap.src, value))
-                .pipe(sourcemaps.init())
+                .src(path.join(bootstrap.src+"/sass", value))
                 .pipe(sass().on('error', sass.logError))
+                .pipe(sourcemaps.init())
                 .pipe(autoprefixer({    
                     browsers: ['last 4 version', 'ie 10', 'ie 11'],
                     cascade: false
                 }))
-                .pipe(sourcemaps.write())
-                .pipe(gulp.dest(exportDirectory))
-                .pipe(concat(path.basename(key)));
+                .pipe(concat(path.basename(key)))
+                .pipe(sourcemaps.write()) // inline
+                .pipe(gulp.dest(exportDirectory));
             }
         }
     }

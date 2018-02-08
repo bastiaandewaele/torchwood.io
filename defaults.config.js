@@ -1,4 +1,4 @@
-module.export = {
+module.exports = {
   localhost: true,
   server: {
     port: 9000
@@ -6,7 +6,11 @@ module.export = {
   views: true,
   assets: true,
   misc: true,
-  files: {},
-  concat: {},
+  images: true,
+  concat: true,
+  files: {
+    sass: {},
+    concat: {}
+  },
   directory: "../export"
 };
