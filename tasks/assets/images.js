@@ -1,3 +1,4 @@
+const gulp = require("gulp");
 const process = require("process");
 const path = require("path");
 const fs = require("fs");
@@ -6,6 +7,7 @@ const image = require("gulp-image");
 
 // Custom 
 const bootstrap = require("../../bootstrap");
+const localhost = require("../localhost");
 
 // Properties
 const settings = bootstrap.settings;
@@ -18,37 +20,34 @@ let watchFiles = [];
     }
 });
 
-module.exports = {
-    watchFiles,
-    task() {
-        if (settings.images === true) {
-            let gulp = this;
+module.exports.watchFiles = watchFiles;
+module.exports.task = function() {
+    let gulp = this;
 
-            if (settings.assets === true) {
-                gulp.src(watchFiles, { cwd: bootstrap.src+"/images"})
-                .pipe(image({
-                    pngquant: true,
-                    optipng: false,
-                    zopflipng: true,
-                    jpegRecompress: false,
-                    mozjpeg: true,
-                    guetzli: false,
-                    gifsicle: true,
-                    svgo: true,
-                    concurrent: 10,
-                    options: {
-                        optipng: ['-i 1', '-strip all', '-fix', '-o7', '-force'],
-                        pngquant: ['--speed=1', '--force', 256],
-                        zopflipng: ['-y', '--lossy_8bit', '--lossy_transparent'],
-                        jpegRecompress: ['--strip', '--quality', 'medium', '--min', 50, '--max', 100],
-                        mozjpeg: ['-optimize', '-progressive'],
-                        guetzli: ['--quality', 85],
-                        gifsicle: ['--optimize'],
-                        svgo: ['--enable', '--disable', 'convertColors']
-                    }
-                }))
-                .pipe(gulp.dest(path.join(bootstrap.cwd, settings.export)+"/images"));
-            }
+    gulp.src(watchFiles, { cwd: bootstrap.src+"/images"})
+    .pipe(image({
+        pngquant: true,
+        optipng: false,
+        zopflipng: true,
+        jpegRecompress: false,
+        mozjpeg: true,
+        guetzli: false,
+        gifsicle: true,
+        svgo: true,
+        concurrent: 10,
+        options: {
+            optipng: ['-i 1', '-strip all', '-fix', '-o7', '-force'],
+            pngquant: ['--speed=1', '--force', 256],
+            zopflipng: ['-y', '--lossy_8bit', '--lossy_transparent'],
+            jpegRecompress: ['--strip', '--quality', 'medium', '--min', 50, '--max', 100],
+            mozjpeg: ['-optimize', '-progressive'],
+            guetzli: ['--quality', 85],
+            gifsicle: ['--optimize'],
+            svgo: ['--enable', '--disable', 'convertColors']
         }
-    }
+    }))
+    .pipe(gulp.dest(path.join(bootstrap.cwd, settings.export)+"/images"));
+};
+module.exports.watch = function () {
+    gulp.watch(watchFiles, {cwd: bootstrap.src+"/images"}, () => gulp.start("images")).on('change', localhost.browserSync.reload);
 };

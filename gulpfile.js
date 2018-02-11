@@ -29,6 +29,10 @@ const settings = bootstrap.settings;
 // Main tasks
 
 gulp.task("templates", templates.task);
+gulp.task("assets", () => {
+  gulp.task("sass");
+  gulp.task("js");
+});
 gulp.task("sass", sass.task);
 gulp.task("js", js.task);
 gulp.task("images", images.task);
@@ -36,20 +40,19 @@ gulp.task("misc", misc.task);
 gulp.task("concat", concat.task);
 gulp.task("localhost", localhost.task);
 
-// When the user isn't running any command; then show some help text 
-gulp.task("default", ["help"]);
 gulp.task("help", () => {
   console.log("help me!");
   process.exit();
 });
 
-// RUN 
-gulp.task("run", () => {
-  rimraf(path.join(process.cwd(), settings.export), () => {
-    // check by twiggy.config.js what start on run task
+// When no specific task is requested; perform everything from
+//  the config file tochwood.config.js
+
+gulp.task("default", () => {
+  // On every run first completely remove the export directory  
+  rimraf(path.join(bootstrap.cwd, settings.export), () => {
   
     if (settings.templates === true) gulp.start("templates");
-    if (settings.localhost === true) gulp.start("localhost");
     if (settings.assets === true) {
       if (sass.files.size > 0) gulp.start("sass");
       if (js.files.size > 0) gulp.start("js");
@@ -59,54 +62,30 @@ gulp.task("run", () => {
     if (settings.misc === true) {
       gulp.start("misc");
     }
-
+ 
     if (settings.concat === true) {
       gulp.start("concat");
     }
+
+    if (settings.localhost === true) gulp.start("localhost");
   
-    // Watch for changes
-    gulp.start("watch");
+    if (process.argv.includes("--watch")) {
+      // Watch for changes
+      watch();
+    }
   });
 });
 
 // Watch for changes to templates, assets, ... 
 // per watch task { cwd: "..." } is check if a new file has been added 
-gulp.task("watch", () => {
+function watch () {
 
-  // templates:
-  if (settings.templates === true) {
-    gulp.watch(templates.watchFiles, {cwd: bootstrap.src+"/templates"}, () => gulp.start("templates")).on('change', localhost.browserSync.reload);
-  }
+  if (settings.templates === true) templates.watch();
 
-  // Assets: batch sass, js and concat together
-  if (settings.assets === true) {
-    if (sass.files.size > 0) {
-      gulp.watch(sass.watchFiles, {cwd: bootstrap.src+"/sass"}, () => gulp.start("sass")).on('change', localhost.browserSync.reload);
-    }
-  
-    if (js.files.size > 0) {
-      gulp.watch(js.watchFiles, {cwd: bootstrap.src+"/js"}, () => gulp.start("js")).on('change', localhost.browserSync.reload);
-    }
-  
-    if (concat.files.size > 0) {
-      gulp.watch(concat.watchFiles, {cwd: bootstrap.src+"/concat"}, () => gulp.start("concat")).on('change', localhost.browserSync.reload);
-    }
-  }
-  
-  // Other tasks that only be enabled if the option is true
-  if (settings.images === true) {
-    gulp.watch(images.watchFiles, {cwd: bootstrap.src+"/images"}, () => gulp.start("images")).on('change', localhost.browserSync.reload);
-  }
-  
-  if (settings.misc === true) {
-    gulp.watch(misc.watchFiles, {cwd: bootstrap.src+"/misc"}, () => gulp.start("misc")).on('change', localhost.browserSync.reload);
-  }
-
-  if (settings.concat === true) {
-    gulp.watch(concat.watchFiles, {cwd: bootstrap.src+"/concat"}, () => gulp.start("concat")).on('change', localhost.browserSync.reload);
-  }
-
-  if (localhost === true) {
-    gulp.watch("localhost", localhost.watch);
-  }
-});
+  // Assets: assign specific watch tasks
+  if (settings.assets === true && sass.files.size > 0) sass.watch();
+  if (settings.assets === true && js.files.size > 0) js.watch();
+  if (settings.images === true) images.watch();
+  if (settings.misc === true) misc.watch();
+  if (settings.concat === true) concat.watch();
+}
