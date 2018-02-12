@@ -12,7 +12,7 @@ const bootstrap = require("../../bootstrap");
 const localhost = require("../localhost");
 
 // Properties
-const settings = bootstrap.settings;
+const settings = require("../../settings").get();
 const files = bootstrap.sass;
 
 module.exports.files = files;

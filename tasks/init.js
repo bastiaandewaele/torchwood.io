@@ -5,16 +5,12 @@ const fs = require("fs");
 
 // Custom code
 const bootstrap = require("../bootstrap");
-const settings = bootstrap.settings;
 
 module.exports.task = function() {
     
     if (!fs.existsSync(bootstrap.cwd+"/torchwood.config.js")) {
         // Create config file if it doesn't exists yet
         fs.writeFileSync(bootstrap.cwd+"/torchwood.config.js", fs.readFileSync(__dirname+"/../sample.torchwood.config.js"));
-    } else {
-        console.warn(`\`torchwood.config.js\` already exists in your directory (${bootstrap.cwd})`);
-        process.exit();
     }
     
     if (!fs.existsSync(bootstrap.src)) {
@@ -34,8 +30,6 @@ module.exports.task = function() {
         fs.writeFileSync(bootstrap.src+"/css/test.css", "");
         fs.writeFileSync(bootstrap.src+"/css/foo.css", "");
 
-    } else {
-        console.warn(`The directory \`src\` already exists in your directory (${bootstrap.cwd})`);
     }
 
     process.exit();

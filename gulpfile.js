@@ -1,16 +1,11 @@
-// NPM packages
-const gulp = require("gulp");
+const fs = require("fs");
 const path = require("path");
 const process = require("process");
-const fs = require("fs");
 const rimraf = require("rimraf");
-
-// 
-const data = require('gulp-data');
+const gulp = require("gulp");
 
 // Bootstrap, functions and settings
 const bootstrap = require("./bootstrap");
-const settings = bootstrap.settings;
 const init = require("./tasks/init");
 
 // Certain tasks that doesn't any main task to boot
@@ -18,6 +13,20 @@ const init = require("./tasks/init");
 if (process.argv.includes("init")) {
   init.task();
 }
+
+if (!fs.existsSync(bootstrap.cwd+"/torchwood.config.js")) {
+  console.warn(`\`torchwood.config.js\` doesn't exists in your directory (${bootstrap.cwd}). Please use torchwood.io init to create a config.`);
+  process.exit();
+}
+
+if (!fs.existsSync(bootstrap.src)) {
+  console.warn(`The directory \`src\` doesn't exists inside ${bootstrap.cwd}. Please use torchwood.io init to create the src directory.`);
+  process.exit();
+}
+
+bootstrap.boot();
+
+const settings = require("./settings").get();
 
 // Main modules
 const templates = require("./tasks/templates");

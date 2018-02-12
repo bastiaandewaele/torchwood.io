@@ -10,7 +10,7 @@ const bootstrap = require("../../bootstrap");
 const localhost = require("../localhost");
 
 // Properties
-const settings = bootstrap.settings;
+const settings = require("../../settings").get();
 
 // Generate a list 
 let watchFiles = [];

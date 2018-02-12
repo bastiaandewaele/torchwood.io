@@ -1,11 +1,12 @@
-// once upon a time waiting on a sunny day ... i was trying to bootup head start and started hating it (the original)
+// once upon a time waiting on a sunny day ... i was trying to bootup head start and started hating it.)
 
 const process = require("process");
 const path = require("path");
 const fs = require("fs");
 const fileExtension = require('file-extension');
 const gulpSass = require("gulp-sass");
-const extend = require('object-extend');
+const settings = require("./settings");
+//const extend = require('object-extend');
 
 // Properties related to task with files and need validation!
 const sass = new Map;
@@ -16,19 +17,16 @@ const concat = new Map;
 const cwd = module.exports.cwd = process.cwd();
 const src = module.exports.src = process.cwd() + "/src";
 
-// Settings
-const settings = module.exports.settings = Object.assign(require(__dirname+"/defaults.config"), require(cwd+"/torchwood.config"));
+module.exports.boot = function() {
+  const config = settings.get();
 
-// --- ASSETS ---
-
-;(function () {
-  if (settings.assets === true) {
+  if (config.assets === true) {
     if (
-      settings.files.assets instanceof Object &&
-      Object.keys(settings.files.assets).length > 0
+      config.files.assets instanceof Object &&
+      Object.keys(config.files.assets).length > 0
     ) {
-      for (key in settings.files.assets) {
-        const value = settings.files.assets[key];
+      for (key in config.files.assets) {
+        const value = config.files.assets[key];
         const extention = fileExtension(value);
         let directory = cwd+"/src/"+extention;
 
@@ -64,13 +62,13 @@ const settings = module.exports.settings = Object.assign(require(__dirname+"/def
       }
     }
 
-    if (settings.concat === true) {
+    if (config.concat === true) {
       if (
-        settings.files.concat instanceof Object &&
-        Object.keys(settings.files.concat).length > 0
+        config.files.concat instanceof Object &&
+        Object.keys(config.files.concat).length > 0
       ) {
-        for (key in settings.files.concat) {
-          const files = settings.files.concat[key];
+        for (key in config.files.concat) {
+          const files = config.files.concat[key];
   
           if (!Array.isArray(files)) {
             console.warn(`property ${key} of concat isn't of the type Array`);
@@ -92,14 +90,7 @@ const settings = module.exports.settings = Object.assign(require(__dirname+"/def
     }
   }
 
-})();
-
-/*
-
-module.exports.directory = function() {
-  return __dirname;
-}
-*/
+};
 
 module.exports.sass = sass;
 module.exports.js = js;
