@@ -4,7 +4,7 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
-    "preinstall": "sudo npm i -g torchwood.io"
+    "preinstall": "npm install"
   },
   "bin": {
     "torchwood": "bin.js"
