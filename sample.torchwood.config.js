@@ -1,7 +1,6 @@
 
 module.exports = {
-
-	localhost: false,
+	localhost: true,
 	server: {
 		port: 9000
 	},
@@ -15,11 +14,8 @@ module.exports = {
 		},
 		concat: {
 			"css/lib.min.css": ["test.css", "foo.css"],
-			"js/lib.min.js": ["test.js", "foo.js"]
 		},
 	},
 	export: "export",
-	data: {
-		foo: "fool"
-	}
+	data: {}
 };

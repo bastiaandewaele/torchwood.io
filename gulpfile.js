@@ -8,8 +8,18 @@ const rimraf = require("rimraf");
 // 
 const data = require('gulp-data');
 
-// Custom
+// Bootstrap, functions and settings
 const bootstrap = require("./bootstrap");
+const settings = bootstrap.settings;
+const init = require("./tasks/init");
+
+// Certain tasks that doesn't any main task to boot
+// Why: performance / speed
+if (process.argv.includes("init")) {
+  init.task();
+}
+
+// Main modules
 const templates = require("./tasks/templates");
 const sass = require("./tasks/assets/sass");
 const js = require("./tasks/assets/js");
@@ -18,13 +28,12 @@ const misc = require("./tasks/assets/misc");
 const concat = require("./tasks/assets/concat");
 const localhost = require("./tasks/localhost");
 
+// Other modules
+
 // https://mozilla.github.io/nunjucks/
 // https://www.npmjs.com/package/gulp-nunjucks
 
 // todo: add gulp-webpack-server
-
-// Settings
-const settings = bootstrap.settings;
 
 // Main tasks
 
@@ -39,6 +48,9 @@ gulp.task("images", images.task);
 gulp.task("misc", misc.task);
 gulp.task("concat", concat.task);
 gulp.task("localhost", localhost.task);
+
+// Other tasks
+gulp.task("init", init.task);
 
 gulp.task("help", () => {
   console.log("help me!");
