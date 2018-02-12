@@ -1,3 +1,3 @@
-#!/usr/bin/env gulp
+#!/usr/bin/env node
 
 require("./gulpfile");
