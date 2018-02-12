@@ -1,8 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 const process = require("process");
-const rimraf = require("rimraf");
 const gulp = require("gulp");
+const rimraf = require("rimraf");
 
 // Bootstrap, functions and settings
 const bootstrap = require("./bootstrap");

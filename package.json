@@ -4,7 +4,7 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "preinstall": "npm i -g torchwood.io"
   },
   "bin": {
     "torchwood": "bin.js"
@@ -39,5 +39,8 @@
     "rimraf": "^2.6.2",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=8.0.0"
   }
 }
