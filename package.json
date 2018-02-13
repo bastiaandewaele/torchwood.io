@@ -7,7 +7,9 @@
     "preinstall": "npm install"
   },
   "bin": {
-    "torchwood": "bin.js"
+    "torchwood-help": "./bin/help.bin.js",
+    "torchwood-init": "./bin/init.bin.js",
+    "torchwood": "./bin/default.bin.js"
   },
   "author": "Altiske <bastiaan.dewaele@outlook.com>",
   "license": "ISC",

@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const fs = require("fs");
 const path = require("path");
 const process = require("process");
@@ -5,14 +7,16 @@ const gulp = require("gulp");
 const rimraf = require("rimraf");
 
 // Bootstrap, functions and settings
-const bootstrap = require("./bootstrap");
-const init = require("./tasks/init");
+const bootstrap = require("../bootstrap");
+const init = require("../tasks/init");
 
 // Certain tasks that doesn't any main task to boot
 // Why: performance / speed
+/*
 if (process.argv.includes("init")) {
   init.task();
 }
+*/
 
 if (!fs.existsSync(bootstrap.cwd+"/torchwood.config.js")) {
   console.warn(`\`torchwood.config.js\` doesn't exists in your directory (${bootstrap.cwd}). Please use torchwood.io init to create a config.`);
@@ -26,16 +30,16 @@ if (!fs.existsSync(bootstrap.src)) {
 
 bootstrap.boot();
 
-const settings = require("./settings").get();
+const settings = require("../settings").get();
 
 // Main modules
-const templates = require("./tasks/templates");
-const sass = require("./tasks/assets/sass");
-const js = require("./tasks/assets/js");
-const images = require("./tasks/assets/images");
-const misc = require("./tasks/assets/misc");
-const concat = require("./tasks/assets/concat");
-const localhost = require("./tasks/localhost");
+const templates = require("../tasks/templates");
+const sass = require("../tasks/assets/sass");
+const js = require("../tasks/assets/js");
+const images = require("../tasks/assets/images");
+const misc = require("../tasks/assets/misc"); 
+const concat = require("../tasks/assets/concat");
+const localhost = require("../tasks/localhost");
 
 // Other modules
 
@@ -97,6 +101,8 @@ gulp.task("default", () => {
   });
 });
 
+gulp.start("default");
+ 
 // Watch for changes to templates, assets, ... 
 // per watch task { cwd: "..." } is check if a new file has been added 
 function watch () {

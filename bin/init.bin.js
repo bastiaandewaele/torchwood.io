@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const process = require("process");
 const path = require("path");
 const gulp = require("gulp");
@@ -25,10 +27,10 @@ module.exports.task = function() {
         fs.mkdirSync(bootstrap.src+"/templates", 0755);
 
         // Add basic files (related to sample.torchwood.config.js)
-        fs.writeFileSync(bootstrap.src+"/sass/main.sss", "");
-        fs.writeFileSync(bootstrap.src+"/js/main.js", "");
-        fs.writeFileSync(bootstrap.src+"/css/test.css", "");
-        fs.writeFileSync(bootstrap.src+"/css/foo.css", "");
+        fs.writeFileSync(bootstrap.src+"/sass/main.scss", fs.readFileSync(__dirname+"/../src/sass/main.scss"));
+        fs.writeFileSync(bootstrap.src+"/js/main.js", fs.readFileSync(__dirname+"/../src/js/main.js"));
+        fs.writeFileSync(bootstrap.src+"/css/test.css", fs.readFileSync(__dirname+"/../src/css/test.css"));
+        fs.writeFileSync(bootstrap.src+"/css/foo.css", fs.readFileSync(__dirname+"/../src/css/foo.css"));
 
     }
 

@@ -12,7 +12,7 @@ const bootstrap = require("../../bootstrap");
 const localhost = require("../localhost");
 
 // Properties
-const settings = require("../../settings").get();
+const settings = require("../../configs/settings.torchwood.config.js").get();
 const files = bootstrap.sass;
 
 module.exports.files = files;

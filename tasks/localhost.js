@@ -5,7 +5,7 @@ const browserSync = require('browser-sync').create();
 
 // Custom code
 const bootstrap = require("../bootstrap");
-const settings = require("../settings").get();
+const settings = require("../configs/settings.torchwood.config.js").get();
 
 module.exports.browserSync = browserSync;
 

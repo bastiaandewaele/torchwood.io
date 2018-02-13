@@ -8,7 +8,7 @@ const bootstrap = require("../../bootstrap");
 const localhost = require("../localhost");
 
 // Properties
-const settings = require("../../settings").get();
+const settings = require("../../configs/settings.torchwood.config.js").get();
 
 // Generate a list 
 module.exports.watchFiles = watchFiles = [

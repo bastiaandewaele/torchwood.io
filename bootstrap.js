@@ -5,7 +5,7 @@ const path = require("path");
 const fs = require("fs");
 const fileExtension = require('file-extension');
 const gulpSass = require("gulp-sass");
-const settings = require("./settings");
+const settings = require("./configs/settings.torchwood.config");
 //const extend = require('object-extend');
 
 // Properties related to task with files and need validation!

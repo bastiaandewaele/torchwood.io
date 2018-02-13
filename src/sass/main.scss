@@ -1,0 +1,31 @@
+:root {
+    --red: #e1e1e2;
+}
+
+body {
+    background: var(--red); 
+}
+
+.foo {
+    color: red;
+}
+
+.test {
+    @extend .foo;
+    color: green;
+}
+
+.bar { 
+    background: blue;
+    text-align: center; 
+    box-shadow: none;
+    position: relative;
+}
+ 
+.flex {
+    display: flex;
+}
+
+.grid {
+    display: grid;
+}
