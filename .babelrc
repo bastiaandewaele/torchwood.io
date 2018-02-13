@@ -1,0 +1,6 @@
+{
+    "helpers": false,
+    "polyfill": true,
+    "regenerator": true,
+    "moduleName": "babel-runtime"
+}

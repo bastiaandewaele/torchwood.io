@@ -5,6 +5,7 @@ const path = require("path");
 const fs = require("fs");
 const fileExtension = require('file-extension');
 const gulpSass = require("gulp-sass");
+const clc = require("cli-color");
 const settings = require("./configs/settings.torchwood.config");
 //const extend = require('object-extend');
 
@@ -32,7 +33,7 @@ module.exports.boot = function() {
 
         // 1. check on file type
         if (!["js", "sass", "scss"].includes(extention)) {
-          console.log(`the extention of the file '${value}' ins't allowed inside te property module.exports.assets. Only the file type .js, .scss, .sass is allowed`);
+          console.log(clc.red(`the extention of the file '${value}' ins't allowed inside te property module.exports.assets. Only the file type .js, .scss, .sass is allowed`));
           process.exit();
         }
 
@@ -45,7 +46,7 @@ module.exports.boot = function() {
 
         if (!fs.existsSync(file)) {
           // Block compiling when a file doesn't exist
-          console.log(`the file '${file}' doesn't exist inside te property module.exports.assets`);
+          console.log(clc.red(`the file '${file}' doesn't exist inside te property module.exports.assets`));
           process.exit();
         }
 
@@ -71,15 +72,16 @@ module.exports.boot = function() {
           const files = config.files.concat[key];
   
           if (!Array.isArray(files)) {
-            console.warn(`property ${key} of concat isn't of the type Array`);
+            console.warn(clc.red(`property ${key} of concat isn't of the type Array`));
             process.exit();
           }
 
           // Check if every file exists
           files.forEach(value => {
             const file = path.join(process.cwd()+"/src/concat", value);
+
             if (!fs.existsSync(file)) {
-              console.log(`the file '${value}' doesn't exist inside te property module.exports.concat`);
+              console.log(clc.red(`the file '${value}' doesn't exist inside te property module.exports.concat`));
               process.exit(); // kill the task before a task can be performed      
             }
           });

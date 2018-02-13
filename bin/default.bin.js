@@ -5,6 +5,7 @@ const path = require("path");
 const process = require("process");
 const gulp = require("gulp");
 const rimraf = require("rimraf");
+const clc = require("cli-color");
 
 // Bootstrap, functions and settings
 const bootstrap = require("../bootstrap");
@@ -19,18 +20,18 @@ if (process.argv.includes("init")) {
 */
 
 if (!fs.existsSync(bootstrap.cwd+"/torchwood.config.js")) {
-  console.warn(`\`torchwood.config.js\` doesn't exists in your directory (${bootstrap.cwd}). Please use torchwood.io init to create a config.`);
+  console.warn(clc.red(`\`torchwood.config.js\` doesn't exists in your directory (${bootstrap.cwd}). Please use \`torchwood-init\` to create a config.`));
   process.exit();
 }
 
 if (!fs.existsSync(bootstrap.src)) {
-  console.warn(`The directory \`src\` doesn't exists inside ${bootstrap.cwd}. Please use torchwood.io init to create the src directory.`);
+  console.warn(clc.red(`The directory \`src\` doesn't exists inside ${bootstrap.cwd}. Please use \`torchwood-init\` to create the src directory.`));
   process.exit();
 }
 
 bootstrap.boot();
 
-const settings = require("../settings").get();
+const settings = require("../configs/settings.torchwood.config").get();
 
 // Main modules
 const templates = require("../tasks/templates");

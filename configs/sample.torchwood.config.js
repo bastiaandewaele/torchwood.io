@@ -14,6 +14,7 @@ module.exports = {
 		},
 		concat: {
 			"css/lib.min.css": ["test.css", "foo.css"],
+			"css/lib.min.js": ["test.js", "foo.js"],
 		},
 	},
 	export: "export",

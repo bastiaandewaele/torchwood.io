@@ -42,8 +42,8 @@ module.exports.task = function () {
 
             bundler
             .transform(babelify.configure({
-                presets: ["es2015"],
-                plugins: ["transform-runtime"]
+                presets: [path.join(__dirname, "../../node_modules/babel-preset-es2015")],
+                plugins: [path.join(__dirname, "../../node_modules/babel-plugin-transform-runtime")]
             }))
             .bundle()
             .on("error", function (err) { console.error(err); })
