@@ -1,6 +1,6 @@
 {
   "name": "torchwood.io",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "",
   "main": "gulpfile.js",
   "bin": {
@@ -9,7 +9,7 @@
     "torchwood": "./bin/default.bin.js"
   },
   "scripts": {
-    "postinstall": "npm install"
+    "postinstall": "sudo npm install"
   },
   "author": "Altiske <bastiaan.dewaele@outlook.com>",
   "repository": { 
