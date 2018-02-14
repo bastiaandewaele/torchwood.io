@@ -1,6 +1,6 @@
 {
   "name": "torchwood.io",
-  "version": "0.1.1",
+  "version": "0.1.6",
   "description": "",
   "main": "gulpfile.js",
   "bin": {
@@ -8,7 +8,14 @@
     "torchwood-init": "./bin/init.bin.js",
     "torchwood": "./bin/default.bin.js"
   },
+  "scripts": {
+    "postinstall": "npm install"
+  },
   "author": "Altiske <bastiaan.dewaele@outlook.com>",
+  "repository": { 
+    "type" : "git",
+    "url" : "https://github.com/altiske/torchwood.io"
+  },
   "license": "ISC",
   "dependencies": {},
   "devDependencies": {
