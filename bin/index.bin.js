@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// binary file (global): will execute torchwood.io that is locally installed
+
 const fs = require("fs");
 const path = require("path");
 const process = require("process");
