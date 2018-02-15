@@ -2,14 +2,13 @@
   "name": "torchwood.io",
   "version": "0.1.7",
   "description": "",
-  "main": "gulpfile.js",
+  "main": "index.js",
   "bin": {
-    "torchwood-help": "./bin/help.bin.js",
-    "torchwood-init": "./bin/init.bin.js",
-    "torchwood": "./bin/default.bin.js"
+    "torchwood": "./bin/index.bin.js"
   },
   "scripts": {
-    "postinstall": "sudo npm install"
+    "help": "./bin/help.bin.js",
+    "init": "./bin/init.bin.js"
   },
   "author": "Altiske <bastiaan.dewaele@outlook.com>",
   "repository": { 
@@ -17,7 +16,9 @@
     "url" : "https://github.com/altiske/torchwood.io"
   },
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "cli-color": "^1.2.0"
+  },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
@@ -27,7 +28,6 @@
     "babelify": "^8.0.0",
     "browser-sync": "^2.23.6",
     "browserify": "^15.2.0",
-    "cli-color": "^1.2.0",
     "extend": "^3.0.1",
     "file-extension": "^4.0.2",
     "gulp": "^3.9.1",
