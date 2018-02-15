@@ -7,15 +7,6 @@ const clc = require("cli-color");
 
 // Bootstrap, functions and settings
 const bootstrap = require("./bootstrap");
-const init = require("./tasks/init");
-
-// Certain tasks that doesn't any main task to boot
-// Why: performance / speed
-/*
-if (process.argv.includes("init")) {
-  init.task();
-}
-*/
 
 if (!fs.existsSync(bootstrap.cwd+"/torchwood.config.js")) {
   console.warn(clc.red(`\`torchwood.config.js\` doesn't exists in your directory (${bootstrap.cwd}). Please use \`torchwood-init\` to create a config.`));

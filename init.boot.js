@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// Certain tasks don't need to boot up index.boot.js (for performance reasons / gulp is slow)
+
 const process = require("process");
 const path = require("path");
 const gulp = require("gulp");
@@ -20,7 +22,7 @@ if (!fs.existsSync(bootstrap.cwd+"/torchwood.config.js")) {
 }
 
 if (!fs.existsSync(bootstrap.src)) {
-    // Create the most importants files
+    // Start copying sample files and create base directories
     fs.mkdirSync(bootstrap.src, 0755);
     fs.mkdirSync(bootstrap.src+"/concat", 0755);
     fs.mkdirSync(bootstrap.src+"/images", 0755);
@@ -39,6 +41,7 @@ if (!fs.existsSync(bootstrap.src)) {
     fs.writeFileSync(bootstrap.src+"/concat/foo.js", fs.readFileSync(__dirname+"/src/concat/foo.js"));
     fs.writeFileSync(bootstrap.src+"/concat/test.js", fs.readFileSync(__dirname+"/src/concat/test.js"));
     fs.writeFileSync(bootstrap.src+"/templates/index.html", fs.readFileSync(__dirname+"/src/templates/index.html"));
+    fs.writeFileSync(bootstrap.src+"/templates/about.html", fs.readFileSync(__dirname+"/src/templates/about.html"));
     fs.mkdirSync(bootstrap.src+"/templates/partials", 0755);
     fs.writeFileSync(bootstrap.src+"/templates/partials/header.html", fs.readFileSync(__dirname+"/src/templates/partials/header.html"));
 

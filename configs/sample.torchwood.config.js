@@ -18,5 +18,7 @@ module.exports = {
 		},
 	},
 	export: "export",
-	data: {}
+	data: {
+		title: "torchwood.io"
+	}
 };
