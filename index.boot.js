@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const fs = require("fs");
 const path = require("path");
 const process = require("process");
@@ -8,8 +6,8 @@ const rimraf = require("rimraf");
 const clc = require("cli-color");
 
 // Bootstrap, functions and settings
-const bootstrap = require("../bootstrap");
-const init = require("../tasks/init");
+const bootstrap = require("./bootstrap");
+const init = require("./tasks/init");
 
 // Certain tasks that doesn't any main task to boot
 // Why: performance / speed
@@ -31,16 +29,16 @@ if (!fs.existsSync(bootstrap.src)) {
 
 bootstrap.boot();
 
-const settings = require("../configs/settings.torchwood.config").get();
+const settings = require("./configs/settings.torchwood.config").get();
 
 // Main modules
-const templates = require("../tasks/templates");
-const sass = require("../tasks/assets/sass");
-const js = require("../tasks/assets/js");
-const images = require("../tasks/assets/images");
-const misc = require("../tasks/assets/misc"); 
-const concat = require("../tasks/assets/concat");
-const localhost = require("../tasks/localhost");
+const templates = require("./tasks/templates");
+const sass = require("./tasks/assets/sass");
+const js = require("./tasks/assets/js");
+const images = require("./tasks/assets/images");
+const misc = require("./tasks/assets/misc"); 
+const concat = require("./tasks/assets/concat");
+const localhost = require("./tasks/localhost");
 
 // Other modules
 
