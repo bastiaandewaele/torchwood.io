@@ -3,13 +3,6 @@
   "version": "0.1.24",
   "description": "",
   "main": "index.js",
-  "bin": {
-    "torchwood": "./bin/index.bin.js"
-  },
-  "scripts": {
-    "help": "./bin/help.bin.js",
-    "init": "./bin/init.bin.js"
-  },
   "author": "Altiske <bastiaan.dewaele@outlook.com>",
   "repository": { 
     "type" : "git",
