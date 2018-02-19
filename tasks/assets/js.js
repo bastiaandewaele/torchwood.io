@@ -8,6 +8,8 @@ const babelify = require('babelify');
 const browserify = require('browserify');
 const buffer = require('vinyl-buffer');
 const source = require('vinyl-source-stream');
+const notify = require("gulp-notify");
+const clc = require("cli-color");
 
 // Custom 
 const bootstrap = require("../../bootstrap");
@@ -46,7 +48,13 @@ module.exports.task = function () {
                 plugins: [path.join(__dirname, "../../node_modules/babel-plugin-transform-runtime")]
             }))
             .bundle()
-            .on("error", function (err) { console.error(err); })
+            .on("error", function (error) { 
+                console.log(clc.yellow("JS error:"));
+                console.error(clc.red(error));
+            })
+             .on("error",notify.onError(function (error) {
+                return "Error message!: " + error.message;
+            }))
             .pipe(source(path.basename(key)))
             .pipe(buffer())
             .pipe(uglifyjs({

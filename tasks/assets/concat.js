@@ -17,7 +17,6 @@ module.exports.watchFiles = watchFiles = [
     "*.*", 
     "**/*.*", 
     "**/**/*.*", 
-    "**/**/**/*.*",
 ];
 module.exports.task = function () {
     let gulp = this;

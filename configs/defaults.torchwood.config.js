@@ -1,7 +1,10 @@
 module.exports = {
   localhost: false,
   server: {
-    port: 9000
+    port: 3000,
+    open: false,
+    xip: false,
+    notify: true
   },
   views: true,
   assets: true,

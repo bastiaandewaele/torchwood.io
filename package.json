@@ -41,5 +41,8 @@
   },
   "engines": {
     "node": ">=8.0.0"
+  },
+  "devDependencies": {
+    "gulp-notify": "^3.2.0"
   }
 }

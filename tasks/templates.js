@@ -23,22 +23,22 @@ module.exports.task = task = function() {
 
     // Set standard messages
     data.assets = {
-        sass: "<!-- no sass files -->",
-        js: "<!-- no js files -->",
+        sass: "",
+        js: "",
     };
 
     // Set properties that include all SASS and JS files to printed with {{ assets.sass | sage }} or  {{ assets.js | sage }}
     if (bootstrap.sass.size > 0) {
         data.assets.sass = "";
         for (let [file, value] of bootstrap.sass) {
-            data.assets.sass+= `<!-- sass files -->\n <link rel="stylesheet" type="text/css" href="${file}?v${data.version}">`;
+            data.assets.sass+= `<!-- CSS files -->\n <link rel="stylesheet" type="text/css" href="${file}?v${data.version}">`;
         }
     }
 
     if (bootstrap.js.size > 0) {
         data.assets.js = "";
         for (let [file, value] of bootstrap.js) {
-            data.assets.js+= `<!-- js files -->\n <script type="text/javascript" src="${file}?v${data.version}"></script>`;
+            data.assets.js+= `<!-- JS files -->\n <script type="text/javascript" src="${file}?v${data.version}"></script>`;
         }
     }
 

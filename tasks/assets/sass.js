@@ -6,6 +6,8 @@ const concat = require("gulp-concat");
 const sourcemaps = require("gulp-sourcemaps");
 const sass = require("gulp-sass");
 const autoprefixer = require("gulp-autoprefixer");
+const notify = require("gulp-notify");
+const clc = require("cli-color");
 
 // Custom 
 const bootstrap = require("../../bootstrap");
@@ -29,23 +31,29 @@ module.exports.task = function() {
     if (files.size > 0) {
         for (var [key, value] of files) {        
             let exportDirectory = path.dirname(path.join(bootstrap.cwd, settings.export, key)); 
-            /*     
-            if (!fs.existsSync(path.join(bootstrap.src+"/sass", value))) {
-                console.log("stop", path.join(bootstrap.src+"/sass", value));
-                process.exit();
-            }
-            */
 
             gulp
             .src(path.join(bootstrap.src+"/sass", value))
-            .pipe(sass().on('error', sass.logError))
+            .pipe(
+                sass({ 
+                    style: "compressed",
+                    flexbox: true,
+                    grid: true,
+                    stats: true
+                })
+                .on("error", error => {
+                    console.log(clc.yellow("The following error occurred:"));
+                    console.log(clc.red(error));
+                })
+                .on("error", notify.onError(error => { return "SASS Error: " + error.message; }))
+            )
             .pipe(sourcemaps.init())
             .pipe(autoprefixer({    
                 browsers: ['last 4 version', 'ie 10', 'ie 11'],
                 cascade: false
             }))
             .pipe(concat(path.basename(key)))
-            .pipe(sourcemaps.write()) // inline
+            .pipe(sourcemaps.write()) // inline .map
             .pipe(gulp.dest(exportDirectory));
         }
     }

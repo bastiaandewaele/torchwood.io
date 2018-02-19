@@ -24,7 +24,7 @@ module.exports.task = function() {
         cwd: bootstrap.src + "/misc",
         dot: true // include hidden files like .htaccess
     })
-    .pipe(gulp.dest(path.join(bootstrap.cwd, settings.export)));
+    .pipe(gulp.dest(path.join(bootstrap.cwd, settings.export)))
 };
 module.exports.watch = function() {
     gulp.watch(watchFiles, {cwd: bootstrap.src+"/misc"}, () => gulp.start("misc")).on('change', localhost.browserSync.reload);

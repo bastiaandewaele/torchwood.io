@@ -22,6 +22,11 @@ bootstrap.boot();
 
 const settings = require("./configs/settings.torchwood.config").get();
 
+
+
+//console.log(process.argv[2]);
+//process.exit();
+
 // Main modules
 const templates = require("./tasks/templates");
 const sass = require("./tasks/assets/sass");
@@ -40,6 +45,9 @@ const localhost = require("./tasks/localhost");
 
 // Main tasks
 
+//console.log(process.argv.length);
+//process.exit();
+
 gulp.task("templates", templates.task);
 gulp.task("assets", () => {
   gulp.task("sass");
@@ -51,9 +59,6 @@ gulp.task("images", images.task);
 gulp.task("misc", misc.task);
 gulp.task("concat", concat.task);
 gulp.task("localhost", localhost.task);
-
-// Other tasks
-gulp.task("init", init.task);
 
 gulp.task("help", () => {
   console.log("help me!");
@@ -71,23 +76,16 @@ gulp.task("default", () => {
     if (settings.assets === true) {
       if (sass.files.size > 0) gulp.start("sass");
       if (js.files.size > 0) gulp.start("js");
-      gulp.start("images");
+      
     }
 
-    if (settings.misc === true) {
-      gulp.start("misc");
-    }
- 
-    if (settings.concat === true) {
-      gulp.start("concat");
-    }
-
+    if (settings.misc === true) gulp.start("images");
+    if (settings.misc === true) gulp.start("misc");
+    if (settings.concat === true) gulp.start("concat");
     if (settings.localhost === true) gulp.start("localhost");
-  
-    if (process.argv.includes("--watch")) {
-      // Watch for changes
-      watch();
-    }
+    
+    // Watch for changes and reload Localhost when enabled
+    if (process.argv.includes("--watch")) watch();
   });
 });
 
