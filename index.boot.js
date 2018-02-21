@@ -1,13 +1,27 @@
 const fs = require("fs");
 const path = require("path");
 const process = require("process");
+
+// get requested task
+const task = process.argv[2]; 
+
+// Tasks that doesn't need bootstrap.bool()
+switch(task) {
+  case "help": 
+    require("./help.boot");
+    process.exit();
+    break;
+}
+
+// 
 const gulp = require("gulp");
+const debounce = require("lodash/debounce");
 const rimraf = require("rimraf");
 const clc = require("cli-color");
-
-// Bootstrap, functions and settings
 const bootstrap = require("./bootstrap");
 
+// Before we start running tasks we check if the cwd contains a config file 
+// and a src file.
 if (!fs.existsSync(bootstrap.cwd+"/torchwood.config.js")) {
   console.warn(clc.red(`\`torchwood.config.js\` doesn't exists in your directory (${bootstrap.cwd}). Please use \`torchwood-init\` to create a config.`));
   process.exit();
@@ -18,89 +32,50 @@ if (!fs.existsSync(bootstrap.src)) {
   process.exit();
 }
 
+// boot and check if all files listed inside `torchwood.config.js` exists
 bootstrap.boot();
 
+// get settings from torchwood.config.js (cwd directory)
 const settings = require("./configs/settings.torchwood.config").get();
 
+// 
+if (process.argv.includes("templates")) require("./tasks/templates").task();
+if (process.argv.includes("sass")) {
+  const sass = require("./tasks/assets/sass");
+  if (sass.files.size > 0) sass.task();
+}
+if (process.argv.includes("js")) {
+  const js = require("./tasks/assets/js");
+  if (js.files.size > 0) js.task();
+}
+if (process.argv.includes("images")) require("./tasks/assets/images").task();
+if (process.argv.includes("misc")) require("./tasks/assets/misc").task();
+if (process.argv.includes("concat")) require("./tasks/assets/concat").task();
+if (process.argv.includes("localhost")) require("./tasks/localhost").task();
 
+// When no specific task is requested; perform everything that has
+// been set to true inside the config file torchwood.config.js
 
-//console.log(process.argv[2]);
-//process.exit();
+const done = debounce(() => {
+  if (settings.localhost === true) require("./tasks/localhost").task();
+}, 500);
 
-// Main modules
-const templates = require("./tasks/templates");
-const sass = require("./tasks/assets/sass");
-const js = require("./tasks/assets/js");
-const images = require("./tasks/assets/images");
-const misc = require("./tasks/assets/misc"); 
-const concat = require("./tasks/assets/concat");
-const localhost = require("./tasks/localhost");
-
-// Other modules
-
-// https://mozilla.github.io/nunjucks/
-// https://www.npmjs.com/package/gulp-nunjucks
-
-// todo: add gulp-webpack-server
-
-// Main tasks
-
-//console.log(process.argv.length);
-//process.exit();
-
-gulp.task("templates", templates.task);
-gulp.task("assets", () => {
-  gulp.task("sass");
-  gulp.task("js");
-});
-gulp.task("sass", sass.task);
-gulp.task("js", js.task);
-gulp.task("images", images.task);
-gulp.task("misc", misc.task);
-gulp.task("concat", concat.task);
-gulp.task("localhost", localhost.task);
-
-gulp.task("help", () => {
-  console.log("help me!");
-  process.exit();
-});
-
-// When no specific task is requested; perform everything from
-//  the config file tochwood.config.js
-
-gulp.task("default", () => {
+if (!task || task === "--watch") {
   // On every run first completely remove the export directory  
-  rimraf(path.join(bootstrap.cwd, settings.export), () => {
-  
-    if (settings.templates === true) gulp.start("templates");
+  rimraf(path.join(bootstrap.cwd, settings.export), () => {  
+    if (settings.templates === true) require("./tasks/templates").task().then(done);
     if (settings.assets === true) {
-      if (sass.files.size > 0) gulp.start("sass");
-      if (js.files.size > 0) gulp.start("js");
-      
+      if (process.argv.includes("sass")) {
+        const sass = require("./tasks/assets/sass");
+        if (sass.files.size > 0) sass.task().then(done);;
+      }
+      if (process.argv.includes("js")) {
+        const js = require("./tasks/assets/js");
+        if (js.files.size > 0) js.task().then(done);;
+      } 
     }
-
-    if (settings.misc === true) gulp.start("images");
-    if (settings.misc === true) gulp.start("misc");
-    if (settings.concat === true) gulp.start("concat");
-    if (settings.localhost === true) gulp.start("localhost");
-    
-    // Watch for changes and reload Localhost when enabled
-    if (process.argv.includes("--watch")) watch();
+    if (settings.images === true) require("./tasks/assets/images").task().then(done);
+    if (settings.misc === true)  require("./tasks/assets/misc").task().then(done);
+    if (settings.concat === true) require("./tasks/assets/concat").task().then(done);
   });
-});
-
-gulp.start("default");
- 
-// Watch for changes to templates, assets, ... 
-// per watch task { cwd: "..." } is check if a new file has been added 
-function watch () {
-
-  if (settings.templates === true) templates.watch();
-
-  // Assets: assign specific watch tasks
-  if (settings.assets === true && sass.files.size > 0) sass.watch();
-  if (settings.assets === true && js.files.size > 0) js.watch();
-  if (settings.images === true) images.watch();
-  if (settings.misc === true) misc.watch();
-  if (settings.concat === true) concat.watch();
 }

@@ -2,6 +2,7 @@ const process = require("process");
 const path = require("path");
 const gulp = require("gulp");
 const browserSync = require('browser-sync').create();
+const clc = require("cli-color");
 
 // Custom code
 const bootstrap = require("../bootstrap");
@@ -15,14 +16,17 @@ module.exports.browserSync = browserSync;
  * gulp.task("sass", localhost.task);
  */
 module.exports.task = task = function() {
-  browserSync.init({
+  browserSync.init(Object.assign({
     open: false,
     server: {
-      baseDir: path.join(bootstrap.cwd, settings.export),
       xip: true,
     }
-  });
+  }, settings, {
+    server: {
+      baseDir: path.join(bootstrap.cwd, settings.export),
+    }
+  }));
 };
 module.exports.watch = function() {
-  gulp.watch("localhost", localhost.watch);
+  //gulp.watch("localhost", localhost.watch);
 };

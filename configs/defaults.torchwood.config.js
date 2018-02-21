@@ -8,6 +8,8 @@ module.exports = {
   },
   views: true,
   assets: true,
+  notify: false,
+  map: true,
   misc: true,
   images: true,
   concat: true,

@@ -1,7 +1,6 @@
 const gulp = require("gulp");
-const process = require("process");
+const gulpIf = require("gulp-if");
 const path = require("path");
-const fs = require("fs");
 const concat = require("gulp-concat");
 const sourcemaps = require("gulp-sourcemaps");
 const sass = require("gulp-sass");
@@ -27,8 +26,7 @@ module.exports.watchFiles = watchFiles = [
     "**/**/*.scss", 
 ];
 module.exports.task = function() {
-    let gulp = this;
-    if (files.size > 0) {
+    return new Promise((resolve, reject) => {
         for (var [key, value] of files) {        
             let exportDirectory = path.dirname(path.join(bootstrap.cwd, settings.export, key)); 
 
@@ -36,28 +34,40 @@ module.exports.task = function() {
             .src(path.join(bootstrap.src+"/sass", value))
             .pipe(
                 sass({ 
+                    outputStyle: "compressed",
                     style: "compressed",
                     flexbox: true,
                     grid: true,
-                    stats: true
+                    stats: false
                 })
                 .on("error", error => {
                     console.log(clc.yellow("The following error occurred:"));
                     console.log(clc.red(error));
                 })
-                .on("error", notify.onError(error => { return "SASS Error: " + error.message; }))
+                .on("error", notify.onError(error => { 
+                    if (settings.notify === true) {
+                        return "SASS Error: " + error.message;
+                    }
+                }))
             )
-            .pipe(sourcemaps.init())
+            .pipe(gulpIf(settings.map === true, sourcemaps.init()))
             .pipe(autoprefixer({    
                 browsers: ['last 4 version', 'ie 10', 'ie 11'],
-                cascade: false
+                cascade: false,
             }))
             .pipe(concat(path.basename(key)))
-            .pipe(sourcemaps.write()) // inline .map
-            .pipe(gulp.dest(exportDirectory));
+            .pipe(gulpIf(settings.map === true, sourcemaps.write()))// inline .map
+            .pipe(gulp.dest(exportDirectory))
+            .on('end', () => {
+                console.log(clc.blue("torchwood.io: ")+clc.yellow(`done compiling the file \`src/sass/${key}\` successfully`));
+                resolve();
+            });
         }
-    }
+    });
 };
-module.exports.watch = function () {
-    gulp.watch(watchFiles, {cwd: bootstrap.src+"/sass"}, () => gulp.start("sass")).on('change', localhost.browserSync.reload);
-};
+if (process.argv.includes("--watch")) {
+    gulp.watch(watchFiles, {cwd: bootstrap.src+"/sass"}, () => gulp.start("sass")).on('change', 
+        // only use reload when localhost is true
+        settings.localhost === true ? localhost.browserSync.reload : null
+    );
+}

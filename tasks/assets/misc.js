@@ -1,4 +1,5 @@
 const gulp = require("gulp");
+const clc = require("cli-color");
 const process = require("process");
 const path = require("path");
 const fs = require("fs");
@@ -15,17 +16,23 @@ module.exports.watchFiles = watchFiles = [
     "*",
     "**/*",
     "**/**/*",
-    "**/**/**/*",
 ];
 module.exports.task = function() {
-    let gulp = this;
-
-    gulp.src(watchFiles, { 
-        cwd: bootstrap.src + "/misc",
-        dot: true // include hidden files like .htaccess
-    })
-    .pipe(gulp.dest(path.join(bootstrap.cwd, settings.export)))
+    return new Promise((resolve, reject) => {
+        gulp.src(watchFiles, { 
+            cwd: bootstrap.src + "/misc",
+            dot: true // include hidden files like .htaccess
+        })
+        .pipe(gulp.dest(path.join(bootstrap.cwd, settings.export)))
+        .on('end', () => {
+            console.log(clc.blue("torchwood.io: ")+clc.yellow(`done compiling files from the /src/misc directory`));
+            resolve();
+        });
+    });
 };
-module.exports.watch = function() {
-    gulp.watch(watchFiles, {cwd: bootstrap.src+"/misc"}, () => gulp.start("misc")).on('change', localhost.browserSync.reload);
+if (process.argv.includes("--watch")) {
+    gulp.watch(watchFiles, {cwd: bootstrap.src+"/misc"}, () => gulp.start("misc")).on('change', 
+        // only use reload when localhost is true
+        settings.localhost === true ? localhost.browserSync.reload : null
+    );
 }

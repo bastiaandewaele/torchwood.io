@@ -1,7 +1,6 @@
 const gulp = require("gulp");
-const process = require("process");
+const gulpIf = require("gulp-if");
 const path = require("path");
-const fs = require("fs");
 const sourcemaps = require("gulp-sourcemaps");
 const uglifyjs = require('gulp-uglifyjs');
 const babelify = require('babelify');
@@ -26,12 +25,9 @@ module.exports.watchFiles = watchFiles = [
     "*.js", 
     "**/*.js", 
     "**/**/*.js", 
-    "**/**/**/*.js",
 ];
 module.exports.task = function () {
-    let gulp = this; 
-
-    if (files.size > 0) {      
+    return new Promise((resolve, reject) => {
         for (let [key, value] of files) {    
             let exportDirectory = path.dirname(path.join(bootstrap.cwd, settings.export, key));
 
@@ -52,18 +48,27 @@ module.exports.task = function () {
                 console.log(clc.yellow("JS error:"));
                 console.error(clc.red(error));
             })
-             .on("error",notify.onError(function (error) {
-                return "Error message!: " + error.message;
+            .on("error",notify.onError(function (error) {
+                if (settings.notify === true) {
+                    return "Error message!: " + error.message;
+                }
             }))
             .pipe(source(path.basename(key)))
             .pipe(buffer())
             .pipe(uglifyjs({
-                outSourceMap: true
+                outSourceMap: settings.map === true,
             }))
-            .pipe(gulp.dest(exportDirectory));
+            .pipe(gulp.dest(exportDirectory))
+            .on('end', () => {
+                console.log(clc.blue("torchwood.io: ")+clc.yellow(`done compiling the file \`src/js/${key}\` successfully`));
+                resolve();
+            });
         }
-    }
+    });
 };
-module.exports.watch = function() {
-    gulp.watch(watchFiles, {cwd: bootstrap.src+"/js"}, () => gulp.start("js")).on('change', localhost.browserSync.reload);
-};
+
+if (process.argv.includes("--watch")) {
+    gulp.watch(watchFiles, {cwd: bootstrap.src+"/js"}, () => gulp.start("js")).on('change', 
+        settings.localhost === true ? localhost.browserSync.reload : null
+    );
+}
