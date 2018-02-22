@@ -3,6 +3,7 @@ const path = require("path");
 const process = require("process");
 const nunjucks = require('gulp-nunjucks');
 const clc = require("cli-color");
+const inlineCss = require('gulp-inline-css');
 
 // Custom code
 const bootstrap = require("../bootstrap");
@@ -46,6 +47,12 @@ module.exports.task = task = function() {
         // recompile temmplates
         gulp.src(bootstrap.src+"/templates/*.html")
         .pipe(nunjucks.compile(data))
+        .pipe(pipeIf(settings.inline === true), inlineCss({
+            applyStyleTags: true,
+            applyLinkTags: true,
+            removeStyleTags: true,
+            removeLinkTags: true
+        }))
         .pipe(gulp.dest(path.join(bootstrap.cwd, settings.export)))
         .on('end', () => {
             console.log(clc.blue("torchwood.io: ")+clc.yellow(`done compiling templates from the directory /src/templates`));

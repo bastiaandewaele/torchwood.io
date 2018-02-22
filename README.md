@@ -2,24 +2,31 @@
 
 *Documentation work in progress*
 
-> Is a micro front-end build tool / task runner for building new projets, landings pages in Eloqua or email templates for MailChimp.
+> Is a (micro) front-end building tool for starting new projects, landing pages or email templates (Eloqua, MailChimp).
 
 ## What does [torchwood.io](https://github.com/altiske/torchwood.io)?
 
-- let's you focus on the basic tasks 
-- less repetitive work due not continuously copying minor changes to the header or footer, ...
+- let's you focus on the basics 
+- supports a template engine (nunjucks) who is well supported by Mozilla. 
 - support for SASS
-- support for [ECMA6](http://es6-features.org/#Constants) features
+- support for [ECMAScript 6 / ES2015](http://es6-features.org/#Constants) features
 
-## Advantes of a build tool?
-- small config
-- perfect for small projects
+## Why you should use torchwood.io
+
+### Advantages of a mirco build tool?
+- small learning curve
+- tiny configuration 
+- perfect for creating / delivering front-end templates to a back-end person
+- webserver
 - live reload
-- template ingine ([Nunjucks](https://mozilla.github.io/nunjucks/))
+- template ingine by Mozilla ([Nunjucks](https://mozilla.github.io/nunjucks/))
+
+### disadvantages
+- not meant for __big__ *single page* applications
 
 ## Install
 
 torchwood exists out two packages; one for running CLI command (globaly) and one for running tasks (locally).
 
-    $ sudo npm install -g torchwood.io-cli
+    $ npm install -g torchwood.io-cli
     $ npm install torchwood.io --save-dev

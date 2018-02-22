@@ -9,6 +9,7 @@ module.exports = {
   views: true,
   assets: true,
   notify: false,
+  inline: false,
   map: true,
   misc: true,
   images: true,
