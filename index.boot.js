@@ -41,19 +41,19 @@ const settings = require("./configs/settings.torchwood.config").get();
 // note i'm not using gulp because of performance reasons. 
 // gulp: needs 1000-4000ms to boot 
 // basic: needs 300-750ms to boot
-if (process.argv.includes("templates")) require("./tasks/templates").task();
+if (process.argv.includes("templates")) require("./tasks/templates").task().then(() => {});
 if (process.argv.includes("sass")) {
   const sass = require("./tasks/assets/sass");
-  if (sass.files.size > 0) sass.task();
+  if (sass.files.size > 0) sass.task().then(() => {});
 }
 if (process.argv.includes("js")) {
   const js = require("./tasks/assets/js");
-  if (js.files.size > 0) js.task();
+  if (js.files.size > 0) js.task().then(() => {});
 }
-if (process.argv.includes("images")) require("./tasks/assets/images").task();
-if (process.argv.includes("misc")) require("./tasks/assets/misc").task();
-if (process.argv.includes("concat")) require("./tasks/assets/concat").task();
-if (process.argv.includes("localhost")) require("./tasks/localhost").task();
+if (process.argv.includes("images")) require("./tasks/assets/images").task().then(() => {});
+if (process.argv.includes("misc")) require("./tasks/assets/misc").task().then(() => {});
+if (process.argv.includes("concat")) require("./tasks/assets/concat").task().then(() => {});
+if (process.argv.includes("localhost")) require("./tasks/localhost").task().then(() => {});
 
 // When no specific task is requested; perform everything that has
 // been set to true inside the config file torchwood.config.js
@@ -63,6 +63,7 @@ const done = debounce(() => {
 }, 500);
 
 if (!task || task === "--watch") {
+  console.log(clc.blue("torchwood.io: starting..."));
   // On every run first completely remove the export directory  
   rimraf(path.join(bootstrap.cwd, settings.export), () => {  
     if (settings.templates === true) require("./tasks/templates").task().then(done);

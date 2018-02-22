@@ -47,7 +47,7 @@ module.exports.task = function() {
         }))
         .pipe(gulp.dest(path.join(bootstrap.cwd, settings.export)+"/images"))
         .on('end', () => {
-            console.log(clc.blue("torchwood.io: ")+clc.yellow(`done compressing images from the directory /src/images`));
+            console.log(clc.blue("torchwood.io: ")+clc.yellow(`+ done compressing images from the directory /src/images`));
             resolve();
         });
     });

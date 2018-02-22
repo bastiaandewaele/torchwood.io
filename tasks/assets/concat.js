@@ -32,7 +32,7 @@ module.exports.task = function () {
             .pipe(concat(key))
             .pipe(gulp.dest(exportDirectory))
             .on('end', () => {
-                console.log(clc.blue("torchwood.io: ")+clc.yellow(`done concatenating files from the directory /src/concat`));
+                console.log(clc.blue("torchwood.io: ")+clc.yellow(`+ done concatenating files from the directory /src/concat`));
                 resolve();
             });
         }

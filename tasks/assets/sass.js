@@ -56,10 +56,10 @@ module.exports.task = function() {
                 cascade: false,
             }))
             .pipe(concat(path.basename(key)))
-            .pipe(gulpIf(settings.map === true, sourcemaps.write()))// inline .map
+            .pipe(gulpIf(settings.map === true), sourcemaps.write())// inline .map
             .pipe(gulp.dest(exportDirectory))
             .on('end', () => {
-                console.log(clc.blue("torchwood.io: ")+clc.yellow(`done compiling the file \`src/sass/${key}\` successfully`));
+                console.log(clc.blue("torchwood.io: ")+clc.yellow(`+ done compiling the file \`src/sass/${key}\` successfully`));
                 resolve();
             });
         }

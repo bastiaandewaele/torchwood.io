@@ -1,4 +1,5 @@
 const gulp = require('gulp');
+const gulpIf = require('gulp-if');
 const path = require("path");
 const process = require("process");
 const nunjucks = require('gulp-nunjucks');
@@ -54,15 +55,15 @@ module.exports.task = task = function() {
         // compile nunjucks templates
         .pipe(nunjucks.compile(data))
         // compile stylesheets into inline CSS
-        .pipe(pipeIf(settings.inline === true), inlineCss({
-            applyStyleTags: true,
-            applyLinkTags: true,
-            removeStyleTags: true,
-            removeLinkTags: true
+        .pipe(inlineCss({
+            applyStyleTags: settings.inline === true,
+            applyLinkTags: settings.inline === true,
+            removeStyleTags: settings.inline === true,
+            removeLinkTags: settings.inline === true
         }))
         .pipe(gulp.dest(path.join(bootstrap.cwd, settings.export)))
         .on('end', () => {
-            console.log(clc.blue("torchwood.io: ")+clc.yellow(`done compiling templates from the directory /src/templates`));
+            console.log(clc.blue("torchwood.io: ")+clc.yellow(`+ done compiling templates from the directory /src/templates`));
             resolve();
         });
     }); 

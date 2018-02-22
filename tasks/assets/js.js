@@ -60,7 +60,7 @@ module.exports.task = function () {
             }))
             .pipe(gulp.dest(exportDirectory))
             .on('end', () => {
-                console.log(clc.blue("torchwood.io: ")+clc.yellow(`done compiling the file \`src/js/${key}\` successfully`));
+                console.log(clc.blue("torchwood.io: ")+clc.yellow(`+ done compiling the file \`src/js/${key}\` successfully`));
                 resolve();
             });
         }

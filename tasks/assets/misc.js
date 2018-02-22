@@ -25,7 +25,7 @@ module.exports.task = function() {
         })
         .pipe(gulp.dest(path.join(bootstrap.cwd, settings.export)))
         .on('end', () => {
-            console.log(clc.blue("torchwood.io: ")+clc.yellow(`done compiling files from the /src/misc directory`));
+            console.log(clc.blue("torchwood.io: ")+clc.yellow(`+ done compiling files from the /src/misc directory`));
             resolve();
         });
     });
