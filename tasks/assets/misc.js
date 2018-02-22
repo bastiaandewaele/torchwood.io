@@ -32,7 +32,7 @@ module.exports.task = function() {
 };
 if (process.argv.includes("--watch")) {
     gulp.watch(watchFiles, {cwd: bootstrap.src+"/misc"}, () => gulp.start("misc")).on('change', 
-        // only use reload when localhost is true
+        // only reload when settings.localhost is set to true
         settings.localhost === true ? localhost.browserSync.reload : null
     );
 }

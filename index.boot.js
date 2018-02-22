@@ -5,12 +5,10 @@ const process = require("process");
 // get requested task
 const task = process.argv[2]; 
 
-// Tasks that doesn't need bootstrap.bool()
-switch(task) {
-  case "help": 
-    require("./help.boot");
-    process.exit();
-    break;
+// list of tasks for initializing a new project
+if (["help", "init".includes(task)]) {
+  require("./tasks/"+task);
+  process.exit();
 }
 
 // 
@@ -20,8 +18,8 @@ const rimraf = require("rimraf");
 const clc = require("cli-color");
 const bootstrap = require("./bootstrap");
 
-// Before we start running tasks we check if the cwd contains a config file 
-// and a src file.
+// Before we start running tasks we need to check if the cwd contains atorchwood.config.js file 
+// and also an src directory.
 if (!fs.existsSync(bootstrap.cwd+"/torchwood.config.js")) {
   console.warn(clc.red(`\`torchwood.config.js\` doesn't exists in your directory (${bootstrap.cwd}). Please use \`torchwood-init\` to create a config.`));
   process.exit();
@@ -32,13 +30,17 @@ if (!fs.existsSync(bootstrap.src)) {
   process.exit();
 }
 
-// boot and check if all files listed inside `torchwood.config.js` exists
+// boot and check all listed files inside `torchwood.config.js` exists
 bootstrap.boot();
 
-// get settings from torchwood.config.js (cwd directory)
+// get the user defined settings (torchwood.config.js)
 const settings = require("./configs/settings.torchwood.config").get();
 
-// 
+// Commands (templates, sass, js, images, concat, ...)
+
+// note i'm not using gulp because of performance reasons. 
+// gulp: needs 1000-4000ms to boot 
+// basic: needs 300-750ms to boot
 if (process.argv.includes("templates")) require("./tasks/templates").task();
 if (process.argv.includes("sass")) {
   const sass = require("./tasks/assets/sass");

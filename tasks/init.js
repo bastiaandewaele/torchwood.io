@@ -1,7 +1,3 @@
-#!/usr/bin/env node
-
-// Certain tasks don't need to boot up index.boot.js (for performance reasons / gulp is slow)
-
 const process = require("process");
 const path = require("path");
 const gulp = require("gulp");

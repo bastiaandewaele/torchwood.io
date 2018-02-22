@@ -69,6 +69,7 @@ module.exports.task = function () {
 
 if (process.argv.includes("--watch")) {
     gulp.watch(watchFiles, {cwd: bootstrap.src+"/js"}, () => gulp.start("js")).on('change', 
+        // only reload when settings.localhost is set to true
         settings.localhost === true ? localhost.browserSync.reload : null
     );
 }
