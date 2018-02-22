@@ -18,35 +18,42 @@ module.exports.watchFiles = watchFiles = [
 ];
 module.exports.task = task = function() {
     return new Promise((resolve, reject) => {
-        let data = Object.create(settings.data instanceof Object ? settings.data : {}); // make copy of data 
+        // Turn settings.data into globals
+        let data = Object.assign(Object.create(settings.data instanceof Object ? settings.data : {}), {
 
-        // add dynamic properties per reload
-        data.version = Date.now(); // timestamp for stylesheets and javascript (when dev tools are not enabled
+            // Add global properties that are always available
+            version: Date.now(), // timestamp reloading stylsheets and JS (cache)
 
-        // Set standard messages
-        data.assets = {
-            sass: "",
-            js: "",
-        };
+            assets: {
+                // global that can be printed: {{ assets.sass | safe }}
+                get sass() {
+                    let template = "";
+                    if (bootstrap.sass.size > 0) {
+                        for (let [file, value] of bootstrap.sass) {
+                            template+= `<link rel="stylesheet" type="text/css" href="${file}?v${data.version}">`;
+                        }
+                    }
 
-        // Set properties that include all SASS and JS files to printed with {{ assets.sass | sage }} or  {{ assets.js | sage }}
-        if (bootstrap.sass.size > 0) {
-            data.assets.sass = "";
-            for (let [file, value] of bootstrap.sass) {
-                data.assets.sass+= `<!-- CSS files -->\n <link rel="stylesheet" type="text/css" href="${file}?v${data.version}">`;
+                    return template;
+                },
+                // global that can be printed: {{ assets.js | safe }}
+                get js () {
+                    let template = "";
+                    if (bootstrap.js.size > 0) {
+                        for (let [file, value] of bootstrap.sass) {
+                            template+= `<script type="text/javascript" src="${file}?v${data.version}"></script>`;
+                        }
+                    }
+
+                    return template;
+                }
             }
-        }
+        });
 
-        if (bootstrap.js.size > 0) {
-            data.assets.js = "";
-            for (let [file, value] of bootstrap.js) {
-                data.assets.js+= `<!-- JS files -->\n <script type="text/javascript" src="${file}?v${data.version}"></script>`;
-            }
-        }
-
-        // recompile temmplates
         gulp.src(bootstrap.src+"/templates/*.html")
+        // compile nunjucks templates
         .pipe(nunjucks.compile(data))
+        // compile stylesheets into inline CSS
         .pipe(pipeIf(settings.inline === true), inlineCss({
             applyStyleTags: true,
             applyLinkTags: true,
