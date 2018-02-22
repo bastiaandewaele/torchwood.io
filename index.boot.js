@@ -6,7 +6,7 @@ const process = require("process");
 const task = process.argv[2]; 
 
 // list of tasks for initializing a new project
-if (["help", "init".includes(task)]) {
+if (["help", "init"].includes(task)) {
   require("./tasks/"+task);
   process.exit();
 }
