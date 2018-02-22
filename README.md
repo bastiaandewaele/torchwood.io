@@ -1,6 +1,6 @@
 # [torchwood.io](https://github.com/altiske/torchwood.io) (Alpha),
 
-*Documentation work in progress*
+*Work in progress*
 
 > Is a (micro) front-end building tool for starting new projects, landing pages or email templates (Eloqua, MailChimp).
 
