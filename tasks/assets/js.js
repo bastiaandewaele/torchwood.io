@@ -40,9 +40,11 @@ module.exports.task = function () {
             cwd: bootstrap.src + "/js" // use src/js directory as main directory              
         });
 
+
         bundler
         .transform(babelify.configure({
-            presets: [path.join(__dirname, "../../node_modules/babel-preset-es2015")],
+            presets: [path.join(__dirname, "../../node_modules/babel-preset-react")],
+            presets: [path.join(__dirname, "../../node_modules/babel-preset-env")],
             plugins: [path.join(__dirname, "../../node_modules/babel-plugin-transform-runtime")]
         }))
         .bundle()

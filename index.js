@@ -56,12 +56,14 @@ if (process.argv.includes("js")) {
   if (js.files.size > 0) tasks.push(js);
 }
 if (process.argv.includes("images")) tasks.push(require("./tasks/assets/images"));
-if (process.argv.includes("misc")) tasks.push(require("./tasks/assets/images"));
-if (process.argv.includes("concat")) tasks.push(require("./tasks/assets/images"));
-if (process.argv.includes("localhost")) tasks.push(require("./tasks/assets/images"));
+if (process.argv.includes("misc")) tasks.push(require("./tasks/assets/misc"));
+if (process.argv.includes("concat")) tasks.push(require("./tasks/assets/concat"));
 
 if (tasks.length > 0) {
   Promise.all(tasks.map(todo => todo.task())).then(() => {
+
+    if (process.argv.includes("localhost")) tasks.push(require("./tasks/localhost"));
+
     if (process.argv.includes("--watch")) {
       console.log(clc.green("\nwatchers:"));    
       tasks.forEach(task => {
@@ -88,14 +90,10 @@ if (tasks.length > 0) {
 
     if (settings.templates === true) tasks.push(require("./tasks/templates"));
     if (settings.assets === true) {
-      if (process.argv.includes("sass")) {
-        const sass = require("./tasks/assets/sass");
-        if (sass.files.size > 0) tasks.push(sass);
-      }
-      if (process.argv.includes("js")) {
-        const js = require("./tasks/assets/js");
-        if (js.files.size > 0) tasks.push(js);
-      } 
+      const sass = require("./tasks/assets/sass");
+      if (sass.files.size > 0) tasks.push(sass);
+      const js = require("./tasks/assets/js");
+      if (js.files.size > 0) tasks.push(js);
     }
     if (settings.images === true) tasks.push(require("./tasks/assets/images"));
     if (settings.misc === true)  tasks.push(require("./tasks/assets/misc"));
