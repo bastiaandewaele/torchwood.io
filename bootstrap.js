@@ -33,7 +33,7 @@ module.exports.boot = function() {
 
         // 1. check on file type
         if (!["js", "sass", "scss"].includes(extention)) {
-          console.log(clc.red(`the extention of the file '${value}' ins't allowed inside te property module.exports.assets. Only the file type .js, .scss, .sass is allowed`));
+          console.log(`${clc.red("ERROR: ")} the filetype of the file '${clc.yellow(value)}' ins't allowed inside te property ${clc.blue(module.exports.assets)}. Only .js, .scss, .sass is allowed`);
           process.exit();
         }
 
@@ -46,7 +46,7 @@ module.exports.boot = function() {
 
         if (!fs.existsSync(file)) {
           // Block compiling when a file doesn't exist
-          console.log(clc.red(`the file '${file}' doesn't exist inside te property module.exports.assets`));
+          console.log(`${clc.red("ERROR: ")} the file '${clc.yellow(file)}' doesn't exist`);
           process.exit();
         }
 

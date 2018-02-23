@@ -65,8 +65,8 @@ if (tasks.length > 0) {
     if (process.argv.includes("--watch")) {
       console.log(clc.green("\nwatchers:"));    
       tasks.forEach(task => {
-        if (task.hasOwnProperty("watch")) {            
-          console.log(clc.yellow("\t✓ "+task.name));  
+        if (task.hasOwnProperty("watch")) {              
+          console.log(clc.green("✓ ")+task.name);  
         }
       });
       tasks.forEach(task => {
@@ -74,7 +74,6 @@ if (tasks.length > 0) {
           task.watch();
         }
       });
-      console.log(clc.green("\n"));  
     } else {
       process.exit();
     }
@@ -107,7 +106,7 @@ if (tasks.length > 0) {
         console.log(clc.green("\nwatchers:"));    
         tasks.forEach(task => {
           if (task.hasOwnProperty("watch")) {            
-            console.log(clc.yellow("\t✓ "+task.name));  
+            console.log(clc.green("✓ ")+task.name);  
           }
         });
         tasks.forEach(task => {
@@ -115,7 +114,6 @@ if (tasks.length > 0) {
             task.watch();
           }
         });
-        console.log(clc.green("\n"));  
       }
       if (settings.localhost === true) require("./tasks/localhost").task();
     });
