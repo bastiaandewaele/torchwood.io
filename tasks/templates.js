@@ -11,6 +11,7 @@ const bootstrap = require("../bootstrap");
 const localhost = require("./localhost");
 const settings = require("../configs/settings.torchwood.config.js").get();
 
+module.exports.name = "templates";
 module.exports.watchFiles = watchFiles = [
     "*.html", 
     "**/*.html", 
@@ -58,7 +59,7 @@ module.exports.task = task = function() {
         })
         .pipe(gulp.dest(path.join(bootstrap.cwd, settings.export)))
         .on('end', () => {
-            console.log(clc.blue("torchwood.io: ")+clc.yellow(`+ done compiling templates from the directory /src/templates`));
+            console.log(clc.yellow(`+ done compiling templates from the directory /src/templates`));
             resolve();
         });
     }); 

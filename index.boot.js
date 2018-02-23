@@ -6,7 +6,7 @@ const clc = require("cli-color");
 // get requested task
 const task = process.argv[2]; 
 
-console.log(clc.blue("torchwood.io: ")+clc.greenBright("booting..."));
+console.log(clc.blue("torchwood.io: ")+clc.greenBright("booting...\n"));
 
 // list of tasks for initializing a new project
 if (["help", "init"].includes(task)) {
@@ -62,8 +62,22 @@ if (process.argv.includes("localhost")) tasks.push(require("./tasks/assets/image
 
 if (tasks.length > 0) {
   Promise.all(tasks.map(todo => todo.task())).then(() => {
-    console.log(clc.blue("torchwood.io: ")+clc.green("complete"));
-    process.exit();
+    if (process.argv.includes("--watch")) {
+      console.log(clc.green("\nwatchers:"));    
+      tasks.forEach(task => {
+        if (task.hasOwnProperty("watch")) {            
+          console.log(clc.yellow("\t✓ "+task.name));  
+        }
+      });
+      tasks.forEach(task => {
+        if (task.hasOwnProperty("watch")) {  
+          task.watch();
+        }
+      });
+      console.log(clc.green("\n"));  
+    } else {
+      process.exit();
+    }
   });
 } else {
   // When no specific task is requested; perform everything that has
@@ -89,16 +103,21 @@ if (tasks.length > 0) {
     if (settings.concat === true) tasks.push(require("./tasks/assets/concat"));
 
     Promise.all(tasks.map(todo => todo.task())).then(() => {
-      if (settings.localhost === true) require("./tasks/localhost").task();
       if (process.argv.includes("--watch")) {
-        console.log(clc.blue("torchwood.io: ")+clc.green("\n watchers activated"));
-        
+        console.log(clc.green("\nwatchers:"));    
         tasks.forEach(task => {
-          if (task.hasOwnProperty("watch")) {
+          if (task.hasOwnProperty("watch")) {            
+            console.log(clc.yellow("\t✓ "+task.name));  
+          }
+        });
+        tasks.forEach(task => {
+          if (task.hasOwnProperty("watch")) {  
             task.watch();
           }
         });
+        console.log(clc.green("\n"));  
       }
+      if (settings.localhost === true) require("./tasks/localhost").task();
     });
   });
 }

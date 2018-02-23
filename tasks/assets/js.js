@@ -18,6 +18,8 @@ const localhost = require("../localhost");
 const settings = require("../../configs/settings.torchwood.config.js").get();
 const files = bootstrap.js;
 
+module.exports.name = "js";
+
 // tasks for sass and js:
 // on every task request first check if twiggy.config contains asset files.
 module.exports.files = files;
@@ -60,15 +62,15 @@ module.exports.task = function () {
         }))
         .pipe(gulp.dest(exportDirectory))
         .on('end', () => {
-            console.log(clc.blue("torchwood.io: ")+clc.yellow(`+ done compiling \`src/js/${key}\` successfully`));
+            console.log(clc.yellow(`+ done compiling \`src/js/${key}\` successfully`));
             resolve();
         });
     })));
 };
 
-if (process.argv.includes("--watch")) {
+module.exports.watch = function() {
     gulp.watch(watchFiles, {cwd: bootstrap.src+"/js"}, () => gulp.start("js")).on('change', 
         // only reload when settings.localhost is set to true
         settings.localhost === true ? localhost.browserSync.reload : null
     );
-}
+};

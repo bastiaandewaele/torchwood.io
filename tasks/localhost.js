@@ -8,6 +8,7 @@ const clc = require("cli-color");
 const bootstrap = require("../bootstrap");
 const settings = require("../configs/settings.torchwood.config.js").get();
 
+
 module.exports.browserSync = browserSync;
 
 /**
@@ -15,6 +16,7 @@ module.exports.browserSync = browserSync;
  * const localhost = require("tasks/localhost");
  * gulp.task("sass", localhost.task);
  */
+module.exports.name = "localhost";
 module.exports.task = task = function() {
   console.log(clc.blue("torchwood.io: ")+clc.green("booting Browsersync\n"));
   

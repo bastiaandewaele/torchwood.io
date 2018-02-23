@@ -14,6 +14,7 @@ const localhost = require("../localhost");
 const settings = require("../../configs/settings.torchwood.config.js").get();
 const files = bootstrap.concat;
 
+module.exports.name = "concat";
 module.exports.files = files;
 module.exports.watchFiles = watchFiles = [
     "*.*", 
@@ -32,16 +33,16 @@ module.exports.task = function () {
             .pipe(concat(key))
             .pipe(gulp.dest(exportDirectory))
             .on('end', () => {
-                console.log(clc.blue("torchwood.io: ")+clc.yellow(`+ done concatenating files from the directory /src/concat`));
+                console.log(clc.yellow(`+ done concatenating files from the directory /src/concat`));
                 resolve();
             });
         }
     });
 };
 
-if (process.argv.includes("--watch")) {
+module.exports.watch = function() {
     gulp.watch(watchFiles, {cwd: bootstrap.src+"/concat"}, () => gulp.start("concat")).on('change', 
         // only reload when settings.localhost is set to true
         settings.localhost === true ? localhost.browserSync.reload : null
     );
-}
+};

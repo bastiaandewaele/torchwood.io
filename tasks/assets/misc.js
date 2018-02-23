@@ -11,6 +11,8 @@ const localhost = require("../localhost");
 // Properties
 const settings = require("../../configs/settings.torchwood.config.js").get();
 
+module.exports.name = "misc";
+
 // Generate a list 
 module.exports.watchFiles = watchFiles = [
     "*",
@@ -25,14 +27,14 @@ module.exports.task = function() {
         })
         .pipe(gulp.dest(path.join(bootstrap.cwd, settings.export)))
         .on('end', () => {
-            console.log(clc.blue("torchwood.io: ")+clc.yellow(`+ done compiling files from the /src/misc directory`));
+            console.log(clc.yellow(`+ done compiling files from the /src/misc directory`));
             resolve();
         });
     });
 };
-if (process.argv.includes("--watch")) {
+module.exports.watch = function() {
     gulp.watch(watchFiles, {cwd: bootstrap.src+"/misc"}, () => gulp.start("misc")).on('change', 
         // only reload when settings.localhost is set to true
         settings.localhost === true ? localhost.browserSync.reload : null
     );
-}
+};

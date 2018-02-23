@@ -16,6 +16,7 @@ const localhost = require("../localhost");
 const settings = require("../../configs/settings.torchwood.config.js").get();
 const files = bootstrap.sass;
 
+module.exports.name = "sass";
 module.exports.files = files;
 module.exports.watchFiles = watchFiles = [
     "*.sass", 
@@ -60,14 +61,14 @@ module.exports.task = function() {
         .pipe(sourcemaps.write())// inline .map
         .pipe(gulp.dest(exportDirectory))
         .on('end', () => {
-            console.log(clc.blue("torchwood.io: ")+clc.yellow(`+ done compiling \`src/sass/${key}\` successfully`));
+            console.log(clc.yellow(`+ done compiling \`src/sass/${key}\` successfully`));
             resolve();
         });
     })));
 };
-if (process.argv.includes("--watch")) {
+module.exports.watch = function() {
     gulp.watch(watchFiles, {cwd: bootstrap.src+"/sass"}, () => gulp.start("sass")).on('change', 
         // only reload when settings.localhost is set to true
         settings.localhost === true ? localhost.browserSync.reload : null
     );
-}
+};
