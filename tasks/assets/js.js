@@ -27,44 +27,43 @@ module.exports.watchFiles = watchFiles = [
     "**/**/*.js", 
 ];
 module.exports.task = function () {
-    return new Promise((resolve, reject) => {
-        for (let [key, value] of files) {    
-            let exportDirectory = path.dirname(path.join(bootstrap.cwd, settings.export, key));
+    return Promise.all(Array.from(files.keys()).map(key => new Promise((resolve, reject) => {
+        const value = files.get(key); 
+        let exportDirectory = path.dirname(path.join(bootstrap.cwd, settings.export, key));
 
-            // use browserify and babelify to support import and export syntax
-            let bundler = browserify({
-                entries: path.join(bootstrap.src+"/js", value),
-                debug: true,
-                cwd: bootstrap.src + "/js" // use src/js directory as main directory              
-            });
+        // use browserify and babelify to support import and export syntax
+        let bundler = browserify({
+            entries: path.join(bootstrap.src+"/js", value),
+            debug: true,
+            cwd: bootstrap.src + "/js" // use src/js directory as main directory              
+        });
 
-            bundler
-            .transform(babelify.configure({
-                presets: [path.join(__dirname, "../../node_modules/babel-preset-es2015")],
-                plugins: [path.join(__dirname, "../../node_modules/babel-plugin-transform-runtime")]
-            }))
-            .bundle()
-            .on("error", function (error) { 
-                console.log(clc.yellow("JS error:"));
-                console.error(clc.red(error));
-            })
-            .on("error",notify.onError(function (error) {
-                if (settings.notify === true) {
-                    return "Error message!: " + error.message;
-                }
-            }))
-            .pipe(source(path.basename(key)))
-            .pipe(buffer())
-            .pipe(uglifyjs({
-                outSourceMap: settings.map === true,
-            }))
-            .pipe(gulp.dest(exportDirectory))
-            .on('end', () => {
-                console.log(clc.blue("torchwood.io: ")+clc.yellow(`+ done compiling the file \`src/js/${key}\` successfully`));
-                resolve();
-            });
-        }
-    });
+        bundler
+        .transform(babelify.configure({
+            presets: [path.join(__dirname, "../../node_modules/babel-preset-es2015")],
+            plugins: [path.join(__dirname, "../../node_modules/babel-plugin-transform-runtime")]
+        }))
+        .bundle()
+        .on("error", function (error) { 
+            console.log(clc.yellow("JS error:"));
+            console.error(clc.red(error));
+        })
+        .on("error",notify.onError(function (error) {
+            if (settings.notify === true) {
+                return "Error message!: " + error.message;
+            }
+        }))
+        .pipe(source(path.basename(key)))
+        .pipe(buffer())
+        .pipe(uglifyjs({
+            outSourceMap: settings.map === true,
+        }))
+        .pipe(gulp.dest(exportDirectory))
+        .on('end', () => {
+            console.log(clc.blue("torchwood.io: ")+clc.yellow(`+ done compiling \`src/js/${key}\` successfully`));
+            resolve();
+        });
+    })));
 };
 
 if (process.argv.includes("--watch")) {

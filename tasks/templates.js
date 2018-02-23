@@ -4,7 +4,7 @@ const path = require("path");
 const process = require("process");
 const nunjucks = require('gulp-nunjucks');
 const clc = require("cli-color");
-const inlineCss = require('gulp-inline-css');
+//const inlineCss = require('gulp-inline-css');
 
 // Custom code
 const bootstrap = require("../bootstrap");
@@ -15,12 +15,12 @@ module.exports.watchFiles = watchFiles = [
     "*.html", 
     "**/*.html", 
     "**/**/*.html", 
-    "**/**/**/*.html",
 ];
 module.exports.task = task = function() {
     return new Promise((resolve, reject) => {
         // Turn settings.data into globals
-        let data = Object.assign(Object.create(settings.data instanceof Object ? settings.data : {}), {
+
+        let data = Object.assign(settings.data, {
 
             // Add global properties that are always available
             version: Date.now(), // timestamp reloading stylsheets and JS (cache)
@@ -53,14 +53,9 @@ module.exports.task = task = function() {
 
         gulp.src(bootstrap.src+"/templates/*.html")
         // compile nunjucks templates
-        .pipe(nunjucks.compile(data))
-        // compile stylesheets into inline CSS
-        .pipe(inlineCss({
-            applyStyleTags: settings.inline === true,
-            applyLinkTags: settings.inline === true,
-            removeStyleTags: settings.inline === true,
-            removeLinkTags: settings.inline === true
-        }))
+        .pipe(nunjucks.compile(data), {
+            views: bootstrap.src+"/templates"
+        })
         .pipe(gulp.dest(path.join(bootstrap.cwd, settings.export)))
         .on('end', () => {
             console.log(clc.blue("torchwood.io: ")+clc.yellow(`+ done compiling templates from the directory /src/templates`));
@@ -68,9 +63,10 @@ module.exports.task = task = function() {
         });
     }); 
 };
-if (process.argv.includes("--watch")) {
+
+module.exports.watch = watch = function() {
     gulp.watch(watchFiles, {cwd: bootstrap.src+"/templates"}, () => gulp.start("templates")).on('change', 
         // only reload when settings.localhost is set to true
         settings.localhost === true ? localhost.browserSync.reload : null
     );
-}
+};

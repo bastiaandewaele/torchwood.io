@@ -1,9 +1,12 @@
 const fs = require("fs");
 const path = require("path");
 const process = require("process");
+const clc = require("cli-color");
 
 // get requested task
 const task = process.argv[2]; 
+
+console.log(clc.blue("torchwood.io: ")+clc.greenBright("booting..."));
 
 // list of tasks for initializing a new project
 if (["help", "init"].includes(task)) {
@@ -15,18 +18,17 @@ if (["help", "init"].includes(task)) {
 const gulp = require("gulp");
 const debounce = require("lodash/debounce");
 const rimraf = require("rimraf");
-const clc = require("cli-color");
 const bootstrap = require("./bootstrap");
 
 // Before we start running tasks we need to check if the cwd contains atorchwood.config.js file 
 // and also an src directory.
 if (!fs.existsSync(bootstrap.cwd+"/torchwood.config.js")) {
-  console.warn(clc.red(`\`torchwood.config.js\` doesn't exists in your directory (${bootstrap.cwd}). Please use \`torchwood-init\` to create a config.`));
+  console.warn(clc.red(`\`torchwood.config.js\` doesn't exists in your directory (${bootstrap.cwd}). \n Please use \`torchwood init\` to create a config.`));
   process.exit();
 }
 
 if (!fs.existsSync(bootstrap.src)) {
-  console.warn(clc.red(`The directory \`src\` doesn't exists inside ${bootstrap.cwd}. Please use \`torchwood-init\` to create the src directory.`));
+  console.warn(clc.red(`The directory \`src\` doesn't exists inside ${bootstrap.cwd}. \n Please use \`torchwood init\` to create the src directory.`));
   process.exit();
 }
 
@@ -41,44 +43,62 @@ const settings = require("./configs/settings.torchwood.config").get();
 // note i'm not using gulp because of performance reasons. 
 // gulp: needs 1000-4000ms to boot 
 // basic: needs 300-750ms to boot
-if (process.argv.includes("templates")) require("./tasks/templates").task().then(() => {});
+
+let tasks = [];
+
+if (process.argv.includes("templates")) tasks.push(require("./tasks/templates"));
 if (process.argv.includes("sass")) {
   const sass = require("./tasks/assets/sass");
-  if (sass.files.size > 0) sass.task().then(() => {});
+  if (sass.files.size > 0) tasks.push(sass);
 }
 if (process.argv.includes("js")) {
   const js = require("./tasks/assets/js");
-  if (js.files.size > 0) js.task().then(() => {});
+  if (js.files.size > 0) tasks.push(js);
 }
-if (process.argv.includes("images")) require("./tasks/assets/images").task().then(() => {});
-if (process.argv.includes("misc")) require("./tasks/assets/misc").task().then(() => {});
-if (process.argv.includes("concat")) require("./tasks/assets/concat").task().then(() => {});
-if (process.argv.includes("localhost")) require("./tasks/localhost").task().then(() => {});
+if (process.argv.includes("images")) tasks.push(require("./tasks/assets/images"));
+if (process.argv.includes("misc")) tasks.push(require("./tasks/assets/images"));
+if (process.argv.includes("concat")) tasks.push(require("./tasks/assets/images"));
+if (process.argv.includes("localhost")) tasks.push(require("./tasks/assets/images"));
 
-// When no specific task is requested; perform everything that has
-// been set to true inside the config file torchwood.config.js
+if (tasks.length > 0) {
+  Promise.all(tasks.map(todo => todo.task())).then(() => {
+    console.log(clc.blue("torchwood.io: ")+clc.green("complete"));
+    process.exit();
+  });
+} else {
+  // When no specific task is requested; perform everything that has
+  // been set to true inside the config file torchwood.config.js
 
-const done = debounce(() => {
-  if (settings.localhost === true) require("./tasks/localhost").task();
-}, 500);
-
-if (!task || task === "--watch") {
-  console.log(clc.blue("torchwood.io: starting..."));
   // On every run first completely remove the export directory  
   rimraf(path.join(bootstrap.cwd, settings.export), () => {  
-    if (settings.templates === true) require("./tasks/templates").task().then(done);
+    let tasks = [];
+
+    if (settings.templates === true) tasks.push(require("./tasks/templates"));
     if (settings.assets === true) {
       if (process.argv.includes("sass")) {
         const sass = require("./tasks/assets/sass");
-        if (sass.files.size > 0) sass.task().then(done);;
+        if (sass.files.size > 0) tasks.push(sass);
       }
       if (process.argv.includes("js")) {
         const js = require("./tasks/assets/js");
-        if (js.files.size > 0) js.task().then(done);;
+        if (js.files.size > 0) tasks.push(js);
       } 
     }
-    if (settings.images === true) require("./tasks/assets/images").task().then(done);
-    if (settings.misc === true)  require("./tasks/assets/misc").task().then(done);
-    if (settings.concat === true) require("./tasks/assets/concat").task().then(done);
+    if (settings.images === true) tasks.push(require("./tasks/assets/images"));
+    if (settings.misc === true)  tasks.push(require("./tasks/assets/misc"));
+    if (settings.concat === true) tasks.push(require("./tasks/assets/concat"));
+
+    Promise.all(tasks.map(todo => todo.task())).then(() => {
+      if (settings.localhost === true) require("./tasks/localhost").task();
+      if (process.argv.includes("--watch")) {
+        console.log(clc.blue("torchwood.io: ")+clc.green("\n watchers activated"));
+        
+        tasks.forEach(task => {
+          if (task.hasOwnProperty("watch")) {
+            task.watch();
+          }
+        });
+      }
+    });
   });
 }

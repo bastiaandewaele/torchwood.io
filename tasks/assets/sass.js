@@ -25,45 +25,45 @@ module.exports.watchFiles = watchFiles = [
     "**/*.scss", 
     "**/**/*.scss", 
 ];
-module.exports.task = function() {
-    return new Promise((resolve, reject) => {
-        for (var [key, value] of files) {        
-            let exportDirectory = path.dirname(path.join(bootstrap.cwd, settings.export, key)); 
+module.exports.task = function() {     
+    return Promise.all(Array.from(files.keys()).map(key => new Promise((resolve, reject) => {
+        const value = files.get(key);
 
-            gulp
-            .src(path.join(bootstrap.src+"/sass", value))
-            .pipe(
-                sass({ 
-                    outputStyle: "compressed",
-                    style: "compressed",
-                    flexbox: true,
-                    grid: true,
-                    stats: false
-                })
-                .on("error", error => {
-                    console.log(clc.yellow("The following error occurred:"));
-                    console.log(clc.red(error));
-                })
-                .on("error", notify.onError(error => { 
-                    if (settings.notify === true) {
-                        return "SASS Error: " + error.message;
-                    }
-                }))
-            )
-            .pipe(gulpIf(settings.map === true, sourcemaps.init()))
-            .pipe(autoprefixer({    
-                browsers: ['last 4 version', 'ie 10', 'ie 11'],
-                cascade: false,
+        let exportDirectory = path.dirname(path.join(bootstrap.cwd, settings.export, key)); 
+
+        gulp
+        .src(path.join(bootstrap.src+"/sass", value))
+        .pipe(
+            sass({ 
+                outputStyle: "compressed",
+                style: "compressed",
+                flexbox: true,
+                grid: true,
+                stats: false
+            })
+            .on("error", error => {
+                console.log(clc.yellow("The following error occurred:"));
+                console.log(clc.red(error));
+            })
+            .on("error", notify.onError(error => { 
+                if (settings.notify === true) {
+                    return "SASS Error: " + error.message;
+                }
             }))
-            .pipe(concat(path.basename(key)))
-            .pipe(gulpIf(settings.map === true), sourcemaps.write())// inline .map
-            .pipe(gulp.dest(exportDirectory))
-            .on('end', () => {
-                console.log(clc.blue("torchwood.io: ")+clc.yellow(`+ done compiling the file \`src/sass/${key}\` successfully`));
-                resolve();
-            });
-        }
-    });
+        )
+        .pipe(sourcemaps.init())
+        .pipe(autoprefixer({    
+            browsers: ['last 4 version', 'ie 10', 'ie 11'],
+            cascade: false,
+        }))
+        .pipe(concat(path.basename(key)))
+        .pipe(sourcemaps.write())// inline .map
+        .pipe(gulp.dest(exportDirectory))
+        .on('end', () => {
+            console.log(clc.blue("torchwood.io: ")+clc.yellow(`+ done compiling \`src/sass/${key}\` successfully`));
+            resolve();
+        });
+    })));
 };
 if (process.argv.includes("--watch")) {
     gulp.watch(watchFiles, {cwd: bootstrap.src+"/sass"}, () => gulp.start("sass")).on('change', 

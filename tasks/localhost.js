@@ -16,6 +16,8 @@ module.exports.browserSync = browserSync;
  * gulp.task("sass", localhost.task);
  */
 module.exports.task = task = function() {
+  console.log(clc.blue("torchwood.io: ")+clc.green("booting Browsersync\n"));
+  
   browserSync.init(Object.assign({
     open: false,
     server: {
