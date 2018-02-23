@@ -1,8 +1,8 @@
 const gulp = require("gulp");
 const gulpIf = require("gulp-if");
 const path = require("path");
+const uglify = require('gulp-uglify');
 const sourcemaps = require("gulp-sourcemaps");
-const uglifyjs = require('gulp-uglifyjs');
 const babelify = require('babelify');
 const browserify = require('browserify');
 const buffer = require('vinyl-buffer');
@@ -43,9 +43,13 @@ module.exports.task = function () {
 
         bundler
         .transform(babelify.configure({
-            presets: [path.join(__dirname, "../../node_modules/babel-preset-react")],
-            presets: [path.join(__dirname, "../../node_modules/babel-preset-env")],
-            plugins: [path.join(__dirname, "../../node_modules/babel-plugin-transform-runtime")]
+            presets: [path.join(__dirname, "../../node_modules/babel-preset-react"), path.join(__dirname, "../../node_modules/babel-preset-env")],
+            plugins: [
+                path.join(__dirname, "../../node_modules/babel-plugin-transform-runtime"),
+                path.join(__dirname, "../../node_modules/babel-plugin-transform-async-to-generator"),
+                //path.join(__dirname, "../../node_modules/babel-runtime/helpers/createClass"),
+                //path.join(__dirname, "../../node_modules/babel-runtime/helpers/classCallCheck"),
+            ]
         }))
         .bundle()
         .on("error", function (error) { 
@@ -59,9 +63,9 @@ module.exports.task = function () {
         }))
         .pipe(source(path.basename(key)))
         .pipe(buffer())
-        .pipe(uglifyjs({
-            outSourceMap: settings.map === true,
-        }))
+        .pipe(sourcemaps.init())
+        .pipe(uglify({}))
+        .pipe(sourcemaps.write())// inline .map
         .pipe(gulp.dest(exportDirectory))
         .on('end', () => {
             console.log(clc.yellow(`+ done compiling \`src/js/${key}\` successfully`));
