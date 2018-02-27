@@ -1,11 +1,5 @@
-module.exports = {
+module.exports.settings = {
   localhost: false,
-  server: {
-    port: 3000,
-    open: false,
-    xip: false,
-    notify: true
-  },
   views: true,
   assets: true,
   notify: false,
@@ -19,4 +13,14 @@ module.exports = {
     concat: {}
   },
   directory: "../export"
+};
+
+module.exports.localhost = {
+  port: 3000,
+  open: false,
+  notify: true
+};
+
+module.exports.data = {
+
 };

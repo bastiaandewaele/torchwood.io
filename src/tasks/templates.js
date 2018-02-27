@@ -16,7 +16,7 @@ const env = new nunjucks.Environment(new nunjucks.FileSystemLoader(bootstrap.src
 const version = Date.now(); // timestamp reloading stylsheets and JS (cache)
 
 // Nunjucks: set globals
-env.addGlobal("version", Date.now());
+env.addGlobal("version", version);
 env.addGlobal("assets", {
     // global that can be printed: {{ assets.sass | safe }}
     get sass() {
@@ -28,7 +28,7 @@ env.addGlobal("assets", {
             }
         }
 
-        return template;
+        return template+"\n";
     },
     // global that can be printed: {{ assets.js | safe }}
     get js () {
@@ -40,12 +40,22 @@ env.addGlobal("assets", {
             }
         }
 
-        return template;
+        return template+"\n";
     }
 });
-Object.keys(settingsTemplates.data).forEach((key) => {
-    env.addGlobal(key, settingsTemplates.data[key]);
-});
+
+// Set global properties that are define in torchwood.config.js
+if (settingsTemplates.hasOwnProperty("data")) {
+    Object.keys(settingsTemplates.data).forEach((key) => {
+        env.addGlobal(key, settingsTemplates.data[key]);
+    });
+}
+// Set global fitters
+if (settingsTemplates.hasOwnProperty("filters")) {
+    Object.keys(settingsTemplates.filters).forEach((key) => {
+        env.addFilter(key, settingsTemplates.filters[key]);
+    });
+}
 
 // Export
 module.exports.name = "templates";

@@ -1,9 +1,6 @@
 
-module.exports = {
+module.exports.settings = {
 	localhost: true,
-	server: {
-		port: 9000
-	},
 	templates: true,
 	assets: true,
 	misc: true,
@@ -18,7 +15,12 @@ module.exports = {
 		},
 	},
 	export: "export",
+};
+module.exports.localhost = {
+	port: 9000
+};
+module.exports.templates = {
 	data: {
-		title: "torchwood.io"
+		lala: "torchwood.io"
 	}
 };

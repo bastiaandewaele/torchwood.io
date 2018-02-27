@@ -46,7 +46,7 @@ const settings = require(bootstrap.app+"/src/settings");
 
 let tasks = [];
 
-if (process.argv.includes("templates")) tasks.push(require("./tasks/templates"));
+if (process.argv.includes("templates")) tasks.push(require(bootstrap.app+"/src/tasks/templates"));
 if (process.argv.includes("sass")) {
   const sass = require(bootstrap.app+"/src/tasks/assets/sass");
   if (sass.files.size > 0) tasks.push(sass);

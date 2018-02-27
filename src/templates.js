@@ -1,4 +1,5 @@
 const process = require("process");
 const torchwood = require(process.cwd()+"/torchwood.config.js");
+const defaults = require("../configs/defaults.torchwood.config");
 
-module.exports = torchwood.hasOwnProperty("templates") ? torchwood.templates : {};
+module.exports = Object.assign(defaults.localhost, torchwood.hasOwnProperty("templates") ? torchwood.templates : {});

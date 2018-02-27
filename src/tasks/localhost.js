@@ -21,12 +21,7 @@ module.exports.name = "localhost";
 module.exports.task = task = function() {
   console.log(clc.blue("torchwood.io: ")+clc.green("booting Browsersync\n"));
   
-  browserSync.init(Object.assign({
-    open: false,
-    server: {
-      xip: true,
-    }
-  }, settingsLocalhost, {
+  browserSync.init(Object.assign(settingsLocalhost, {
     server: {
       baseDir: path.join(bootstrap.cwd, settings.export),
     }
