@@ -5,11 +5,11 @@ const path = require("path");
 const fs = require("fs");
 
 // Custom 
-const bootstrap = require("../../bootstrap");
-const localhost = require("../localhost");
+const bootstrap = require("../../../bootstrap");
+const localhost = require(bootstrap.app+"/src/tasks/localhost");
 
 // Properties
-const settings = require("../../configs/settings.torchwood.config.js").get();
+const settings = require(bootstrap.app+"/src/settings");
 
 module.exports.name = "misc";
 

@@ -3,15 +3,14 @@ const process = require("process");
 const path = require("path");
 const fs = require("fs");
 const concat = require("gulp-concat");
-const sourcemaps = require("gulp-sourcemaps");
 const clc = require("cli-color");
 
 // Custom 
-const bootstrap = require("../../bootstrap");
-const localhost = require("../localhost");
+const bootstrap = require("../../../bootstrap");
+const localhost = require(bootstrap.app+"/src/tasks/localhost");
 
 // Properties
-const settings = require("../../configs/settings.torchwood.config.js").get();
+const settings = require(bootstrap.app+"/src/settings");
 const files = bootstrap.concat;
 
 module.exports.name = "concat";

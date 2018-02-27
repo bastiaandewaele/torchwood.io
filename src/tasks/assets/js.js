@@ -11,11 +11,11 @@ const notify = require("gulp-notify");
 const clc = require("cli-color");
 
 // Custom 
-const bootstrap = require("../../bootstrap");
-const localhost = require("../localhost");
+const bootstrap = require("../../../bootstrap");
+const localhost = require(bootstrap.app+"/src/tasks/localhost");
 
 // Properties
-const settings = require("../../configs/settings.torchwood.config.js").get();
+const settings = require(bootstrap.app+"/src/settings");
 const files = bootstrap.js;
 
 module.exports.name = "js";
@@ -40,15 +40,15 @@ module.exports.task = function () {
             cwd: bootstrap.src + "/js" // use src/js directory as main directory              
         });
 
-
         bundler
         .transform(babelify.configure({
-            presets: [path.join(__dirname, "../../node_modules/babel-preset-react"), path.join(__dirname, "../../node_modules/babel-preset-env")],
+            presets: [
+                bootstrap.app+"/node_modules/babel-preset-react", 
+                bootstrap.app+"/node_modules/babel-preset-env"
+            ],
             plugins: [
-                path.join(__dirname, "../../node_modules/babel-plugin-transform-runtime"),
-                path.join(__dirname, "../../node_modules/babel-plugin-transform-async-to-generator"),
-                //path.join(__dirname, "../../node_modules/babel-runtime/helpers/createClass"),
-                //path.join(__dirname, "../../node_modules/babel-runtime/helpers/classCallCheck"),
+                bootstrap.app+"/node_modules/babel-plugin-transform-runtime",
+                bootstrap.app+"/node_modules/babel-plugin-transform-async-to-generator",
             ]
         }))
         .bundle()

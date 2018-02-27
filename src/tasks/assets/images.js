@@ -6,11 +6,11 @@ const image = require("gulp-image");
 const clc = require("cli-color");
 
 // Custom 
-const bootstrap = require("../../bootstrap");
-const localhost = require("../localhost");
+const bootstrap = require("../../../bootstrap");
+const localhost = require(bootstrap.app+"/src/tasks/localhost");
 
 // Properties
-const settings = require("../../configs/settings.torchwood.config.js").get();
+const settings = require(bootstrap.app+"/src/settings");
 
 // Generate a list 
 let watchFiles = [];

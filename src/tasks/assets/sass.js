@@ -1,19 +1,18 @@
 const gulp = require("gulp");
-const gulpIf = require("gulp-if");
 const path = require("path");
-const concat = require("gulp-concat");
 const sourcemaps = require("gulp-sourcemaps");
 const sass = require("gulp-sass");
 const autoprefixer = require("gulp-autoprefixer");
 const notify = require("gulp-notify");
 const clc = require("cli-color");
+const through = require("through2");
 
 // Custom 
-const bootstrap = require("../../bootstrap");
-const localhost = require("../localhost");
+const bootstrap = require("../../../bootstrap");
+const localhost = require(bootstrap.app+"/src/tasks/localhost");
 
 // Properties
-const settings = require("../../configs/settings.torchwood.config.js").get();
+const settings = require(bootstrap.app+"/src/settings");
 const files = bootstrap.sass;
 
 module.exports.name = "sass";
@@ -57,7 +56,6 @@ module.exports.task = function() {
             browsers: ['last 4 version', 'ie 10', 'ie 11'],
             cascade: false,
         }))
-        .pipe(concat(path.basename(key)))
         .pipe(sourcemaps.write())// inline .map
         .pipe(gulp.dest(exportDirectory))
         .on('end', () => {

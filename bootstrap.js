@@ -6,8 +6,7 @@ const fs = require("fs");
 const fileExtension = require('file-extension');
 const gulpSass = require("gulp-sass");
 const clc = require("cli-color");
-const settings = require("./configs/settings.torchwood.config");
-//const extend = require('object-extend');
+const settings = require("./src/settings");
 
 // Properties related to task with files and need validation!
 const sass = new Map;
@@ -17,17 +16,17 @@ const concat = new Map;
 // reusable properties
 const cwd = module.exports.cwd = process.cwd();
 const src = module.exports.src = process.cwd() + "/src";
+const app = module.exports.app = __dirname;
 
 module.exports.boot = function() {
-  const config = settings.get();
 
-  if (config.assets === true) {
+  if (settings.assets === true) {
     if (
-      config.files.assets instanceof Object &&
-      Object.keys(config.files.assets).length > 0
+      settings.files.assets instanceof Object &&
+      Object.keys(settings.files.assets).length > 0
     ) {
-      for (key in config.files.assets) {
-        const value = config.files.assets[key];
+      for (key in settings.files.assets) {
+        const value = settings.files.assets[key];
         const extention = fileExtension(value);
         let directory = cwd+"/src/"+extention;
 
@@ -63,13 +62,13 @@ module.exports.boot = function() {
       }
     }
 
-    if (config.concat === true) {
+    if (settings.concat === true) {
       if (
-        config.files.concat instanceof Object &&
-        Object.keys(config.files.concat).length > 0
+        settings.files.concat instanceof Object &&
+        Object.keys(settings.files.concat).length > 0
       ) {
-        for (key in config.files.concat) {
-          const files = config.files.concat[key];
+        for (key in settings.files.concat) {
+          const files = settings.files.concat[key];
   
           if (!Array.isArray(files)) {
             console.warn(clc.red(`property ${key} of concat isn't of the type Array`));

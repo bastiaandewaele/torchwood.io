@@ -5,8 +5,9 @@ const browserSync = require('browser-sync').create();
 const clc = require("cli-color");
 
 // Custom code
-const bootstrap = require("../bootstrap");
-const settings = require("../configs/settings.torchwood.config.js").get();
+const bootstrap = require("../../bootstrap");
+const settings = require(bootstrap.app+"/src/settings");
+const settingsLocalhost = require(bootstrap.app+"/src/localhost");
 
 
 module.exports.browserSync = browserSync;
@@ -25,7 +26,7 @@ module.exports.task = task = function() {
     server: {
       xip: true,
     }
-  }, settings, {
+  }, settingsLocalhost, {
     server: {
       baseDir: path.join(bootstrap.cwd, settings.export),
     }

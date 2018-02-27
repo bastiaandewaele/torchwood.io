@@ -36,7 +36,7 @@ if (!fs.existsSync(bootstrap.src)) {
 bootstrap.boot();
 
 // get the user defined settings (torchwood.config.js)
-const settings = require("./configs/settings.torchwood.config").get();
+const settings = require(bootstrap.app+"/src/settings");
 
 // Commands (templates, sass, js, images, concat, ...)
 
@@ -48,21 +48,21 @@ let tasks = [];
 
 if (process.argv.includes("templates")) tasks.push(require("./tasks/templates"));
 if (process.argv.includes("sass")) {
-  const sass = require("./tasks/assets/sass");
+  const sass = require(bootstrap.app+"/src/tasks/assets/sass");
   if (sass.files.size > 0) tasks.push(sass);
 }
 if (process.argv.includes("js")) {
-  const js = require("./tasks/assets/js");
+  const js = require(bootstrap.app+"/src/tasks/assets/js");
   if (js.files.size > 0) tasks.push(js);
 }
-if (process.argv.includes("images")) tasks.push(require("./tasks/assets/images"));
-if (process.argv.includes("misc")) tasks.push(require("./tasks/assets/misc"));
-if (process.argv.includes("concat")) tasks.push(require("./tasks/assets/concat"));
+if (process.argv.includes("images")) tasks.push(require(bootstrap.app+"/src/tasks/assets/images"));
+if (process.argv.includes("misc")) tasks.push(require(bootstrap.app+"/src/tasks/assets/misc"));
+if (process.argv.includes("concat")) tasks.push(require(bootstrap.app+"/src/tasks/assets/concat"));
 
 if (tasks.length > 0) {
   Promise.all(tasks.map(todo => todo.task())).then(() => {
 
-    if (process.argv.includes("localhost")) tasks.push(require("./tasks/localhost"));
+    if (process.argv.includes("localhost")) tasks.push(require(bootstrap.app+"/src/tasks/localhost"));
 
     if (process.argv.includes("--watch")) {
       console.log(clc.green("\nwatchers:"));    
@@ -88,16 +88,16 @@ if (tasks.length > 0) {
   rimraf(path.join(bootstrap.cwd, settings.export), () => {  
     let tasks = [];
 
-    if (settings.templates === true) tasks.push(require("./tasks/templates"));
+    if (settings.templates === true) tasks.push(require(bootstrap.app+"/src/tasks/templates"));
     if (settings.assets === true) {
-      const sass = require("./tasks/assets/sass");
+      const sass = require(bootstrap.app+"/src/tasks/assets/sass");
       if (sass.files.size > 0) tasks.push(sass);
-      const js = require("./tasks/assets/js");
+      const js = require(bootstrap.app+"/src/tasks/assets/js");
       if (js.files.size > 0) tasks.push(js);
     }
-    if (settings.images === true) tasks.push(require("./tasks/assets/images"));
-    if (settings.misc === true)  tasks.push(require("./tasks/assets/misc"));
-    if (settings.concat === true) tasks.push(require("./tasks/assets/concat"));
+    if (settings.images === true) tasks.push(require(bootstrap.app+"/src/tasks/assets/images"));
+    if (settings.misc === true)  tasks.push(require(bootstrap.app+"/src/tasks/assets/misc"));
+    if (settings.concat === true) tasks.push(require(bootstrap.app+"/src/tasks/assets/concat"));
 
     Promise.all(tasks.map(todo => todo.task())).then(() => {
       if (process.argv.includes("--watch")) {
@@ -113,7 +113,7 @@ if (tasks.length > 0) {
           }
         });
       }
-      if (settings.localhost === true) require("./tasks/localhost").task();
+      if (settings.localhost === true) require(bootstrap.app+"/src/tasks/localhost").task();
     });
   });
 }

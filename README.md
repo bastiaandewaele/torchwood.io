@@ -9,16 +9,15 @@
 - let's you focus on the basics 
 - supports a template engine (nunjucks) who is well supported by Mozilla. 
 - support for SASS
-- support for [ECMAScript 6 / ES2015](http://es6-features.org/#Constants) features
+- support for [ECMAScript 6](http://es6-features.org/#Constants) features
 
 ## Why you should use torchwood.io
 
 ### Advantages of a mirco build tool?
 - small learning curve
 - tiny configuration 
-- perfect for creating / delivering front-end templates to a back-end person
-- webserver
-- live reload
+- perfect for delivering front-end templates to the back-end person
+- webserver / live reload
 - template ingine by Mozilla ([Nunjucks](https://mozilla.github.io/nunjucks/))
 
 ### disadvantages
