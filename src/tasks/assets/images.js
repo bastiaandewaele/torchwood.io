@@ -53,7 +53,7 @@ module.exports.task = task = function(files) {
     });
 };
 module.exports.watch = function() {
-    gulp.watch(watchFiles, {cwd: bootstrap.src+"/images"}, () => gulp.start("images")).on('change', 
+    gulp.watch(watchFiles, {cwd: bootstrap.src+"/images"}, () => task()).on('change', 
         // only reload when settings.localhost is set to true
         settings.localhost === true ? localhost.browserSync.reload : task
     );

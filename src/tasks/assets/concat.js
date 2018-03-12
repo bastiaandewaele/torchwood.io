@@ -40,7 +40,7 @@ module.exports.task = task = function () {
 };
 
 module.exports.watch = function() {
-    gulp.watch(watchFiles, {cwd: bootstrap.src+"/concat"}, () => gulp.start("concat")).on('change', 
+    gulp.watch(watchFiles, {cwd: bootstrap.src+"/concat"}, () => task()).on('change', 
         // only reload when settings.localhost is set to true
         settings.localhost === true ? localhost.browserSync.reload : task
     );
