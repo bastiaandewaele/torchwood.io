@@ -84,11 +84,20 @@ if (tasks.length > 0) {
   // When no specific task is requested; perform everything that has
   // been set to true inside the config file torchwood.config.js
 
-  // On every run first completely remove the export directory  
-  rimraf(path.join(bootstrap.cwd, settings.export), () => {  
+  // On every run delete alls files and sub directories (export / dist directory)
+  const files = fs.readdirSync(path.join(bootstrap.cwd, settings.export)).filter(file => file !== '.git'); // keep .git directory
+  let deletes = [];
+
+  files.forEach(file => {
+    deletes.push(new Promise(resolve => {
+      rimraf(path.join(bootstrap.cwd, settings.export)+"/"+file, (resove) => {
+        resolve();
+      })
+    }))
+  })
+
+  Promise.all(deletes).then(() => {
     let tasks = [];
-    console.log(path.join(bootstrap.cwd, settings.export));
-    fs.mkdirSync(path.join(bootstrap.cwd, settings.export));
 
     if (settings.assets === true) {
       const sass = require(bootstrap.app+"/src/tasks/assets/sass");
