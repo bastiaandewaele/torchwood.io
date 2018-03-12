@@ -21,7 +21,7 @@ let watchFiles = [];
 });
 module.exports.name = "images";
 module.exports.watchFiles = watchFiles;
-module.exports.task = function(files) {
+module.exports.task = task = function(files) {
     return new Promise((resolve, reject) => {
         gulp.src(watchFiles, { cwd: bootstrap.src+"/images"})
         .pipe(image({
@@ -55,6 +55,8 @@ module.exports.task = function(files) {
 module.exports.watch = function() {
     gulp.watch(watchFiles, {cwd: bootstrap.src+"/images"}, () => gulp.start("images")).on('change', 
         // only reload when settings.localhost is set to true
-        settings.localhost === true ? localhost.browserSync.reload : null
+        settings.localhost === true ? localhost.browserSync.reload : task
     );
+
+    return task();
 };

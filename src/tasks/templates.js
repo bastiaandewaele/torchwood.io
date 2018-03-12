@@ -87,8 +87,10 @@ module.exports.task = task = function() {
 };
 
 module.exports.watch = watch = function() {
-    gulp.watch(watchFiles, {cwd: bootstrap.src+"/templates"}, () => gulp.start("templates")).on('change', 
+    gulp.watch(watchFiles, {cwd: bootstrap.src+"/templates"}, () => task).on('change', 
         // only reload when settings.localhost is set to true
-        settings.localhost === true ? localhost.browserSync.reload : null
+        settings.localhost === true ? localhost.browserSync.reload : task
     );
+
+    return task();
 };

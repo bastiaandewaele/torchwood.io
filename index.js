@@ -87,8 +87,9 @@ if (tasks.length > 0) {
   // On every run first completely remove the export directory  
   rimraf(path.join(bootstrap.cwd, settings.export), () => {  
     let tasks = [];
+    console.log(path.join(bootstrap.cwd, settings.export));
+    fs.mkdirSync(path.join(bootstrap.cwd, settings.export));
 
-    if (settings.templates === true) tasks.push(require(bootstrap.app+"/src/tasks/templates"));
     if (settings.assets === true) {
       const sass = require(bootstrap.app+"/src/tasks/assets/sass");
       if (sass.files.size > 0) tasks.push(sass);
@@ -98,8 +99,9 @@ if (tasks.length > 0) {
     if (settings.images === true) tasks.push(require(bootstrap.app+"/src/tasks/assets/images"));
     if (settings.misc === true)  tasks.push(require(bootstrap.app+"/src/tasks/assets/misc"));
     if (settings.concat === true) tasks.push(require(bootstrap.app+"/src/tasks/assets/concat"));
+    if (settings.templates === true) tasks.push(require(bootstrap.app+"/src/tasks/templates"));
 
-    Promise.all(tasks.map(todo => todo.task())).then(() => {
+    Promise.all(tasks.map(task => task.task())).then(() => {
       if (process.argv.includes("--watch")) {
         console.log(clc.green("\nwatchers:"));    
         tasks.forEach(task => {
@@ -113,7 +115,8 @@ if (tasks.length > 0) {
           }
         });
       }
+      
       if (settings.localhost === true) require(bootstrap.app+"/src/tasks/localhost").task();
-    });
+    })
   });
 }

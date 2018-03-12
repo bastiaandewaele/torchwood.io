@@ -25,7 +25,7 @@ module.exports.watchFiles = watchFiles = [
     "**/*.scss", 
     "**/**/*.scss", 
 ];
-module.exports.task = function() {     
+module.exports.task = task = function() {     
     return Promise.all(Array.from(files.keys()).map(key => new Promise((resolve, reject) => {
         const value = files.get(key);
 
@@ -67,6 +67,8 @@ module.exports.task = function() {
 module.exports.watch = function() {
     gulp.watch(watchFiles, {cwd: bootstrap.src+"/sass"}, () => gulp.start("sass")).on('change', 
         // only reload when settings.localhost is set to true
-        settings.localhost === true ? localhost.browserSync.reload : null
+        settings.localhost === true ? localhost.browserSync.reload : task
     );
+
+    return task();
 };

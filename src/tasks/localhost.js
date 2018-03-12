@@ -27,6 +27,3 @@ module.exports.task = task = function() {
     }
   }));
 };
-module.exports.watch = function() {
-  //gulp.watch("localhost", localhost.watch);
-};

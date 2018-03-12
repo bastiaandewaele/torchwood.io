@@ -28,7 +28,7 @@ module.exports.watchFiles = watchFiles = [
     "**/*.js", 
     "**/**/*.js", 
 ];
-module.exports.task = function () {
+module.exports.task = task = function () {
     return Promise.all(Array.from(files.keys()).map(key => new Promise((resolve, reject) => {
         const value = files.get(key); 
         let exportDirectory = path.dirname(path.join(bootstrap.cwd, settings.export, key));
@@ -77,6 +77,8 @@ module.exports.task = function () {
 module.exports.watch = function() {
     gulp.watch(watchFiles, {cwd: bootstrap.src+"/js"}, () => gulp.start("js")).on('change', 
         // only reload when settings.localhost is set to true
-        settings.localhost === true ? localhost.browserSync.reload : null
+        settings.localhost === true ? localhost.browserSync.reload : task
     );
+
+    return task();
 };
