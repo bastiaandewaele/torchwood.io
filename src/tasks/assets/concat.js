@@ -12,14 +12,15 @@ const localhost = require(bootstrap.app+"/src/tasks/localhost");
 // Properties
 const settings = require(bootstrap.app+"/src/settings");
 const files = bootstrap.concat;
-
-module.exports.name = "concat";
-module.exports.files = files;
-module.exports.watchFiles = watchFiles = [
+const watchFiles = [
     "*.*", 
     "**/*.*", 
     "**/**/*.*", 
 ];
+
+module.exports.name = "concat";
+module.exports.files = files;
+module.exports.watchFiles = watchFiles;
 module.exports.task = task = function () {
     return new Promise((resolve, reject) => {
         for (var [key, filesList] of files) {        

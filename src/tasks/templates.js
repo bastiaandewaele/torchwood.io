@@ -15,6 +15,12 @@ const nunjucks = require('nunjucks');
 const env = new nunjucks.Environment(new nunjucks.FileSystemLoader(bootstrap.src+"/templates"), {});
 const version = Date.now(); // timestamp reloading stylsheets and JS (cache)
 
+const watchFiles = [
+    "*.html", 
+    "**/*.html", 
+    "**/**/*.html", 
+];
+
 // Nunjucks: set globals
 env.addGlobal("version", version);
 env.addGlobal("assets", {
@@ -59,11 +65,7 @@ if (settingsTemplates.hasOwnProperty("filters")) {
 
 // Export
 module.exports.name = "templates";
-module.exports.watchFiles = watchFiles = [
-    "*.html", 
-    "**/*.html", 
-    "**/**/*.html", 
-];
+module.exports.watchFiles = watchFiles;
 module.exports.task = task = function() {
     return new Promise((resolve, reject) => {
         gulp.src(bootstrap.src+"/templates/*.html")

@@ -17,17 +17,15 @@ const localhost = require(bootstrap.app+"/src/tasks/localhost");
 // Properties
 const settings = require(bootstrap.app+"/src/settings");
 const files = bootstrap.js;
-
-module.exports.name = "js";
-
-// tasks for sass and js:
-// on every task request first check if twiggy.config contains asset files.
-module.exports.files = files;
-module.exports.watchFiles = watchFiles = [
+const watchFiles = [
     "*.js", 
     "**/*.js", 
     "**/**/*.js", 
 ];
+
+module.exports.name = "js";
+module.exports.files = files;
+module.exports.watchFiles = watchFiles;
 module.exports.task = task = function () {
     return Promise.all(Array.from(files.keys()).map(key => new Promise((resolve, reject) => {
         const value = files.get(key); 

@@ -14,17 +14,18 @@ const localhost = require(bootstrap.app+"/src/tasks/localhost");
 // Properties
 const settings = require(bootstrap.app+"/src/settings");
 const files = bootstrap.sass;
-
-module.exports.name = "sass";
-module.exports.files = files;
-module.exports.watchFiles = watchFiles = [
-    "*.sass", 
-    "**/*.sass", 
-    "**/**/*.sass", 
+const watchFiles = [
     "*.scss", 
     "**/*.scss", 
     "**/**/*.scss", 
+    "*.sass", 
+    "**/*.sass", 
+    "**/**/*.sass", 
 ];
+
+module.exports.name = "sass";
+module.exports.files = files;
+module.exports.watchFiles = watchFiles;
 module.exports.task = task = function() {     
     return Promise.all(Array.from(files.keys()).map(key => new Promise((resolve, reject) => {
         const value = files.get(key);

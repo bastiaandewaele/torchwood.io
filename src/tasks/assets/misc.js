@@ -10,15 +10,14 @@ const localhost = require(bootstrap.app+"/src/tasks/localhost");
 
 // Properties
 const settings = require(bootstrap.app+"/src/settings");
-
-module.exports.name = "misc";
-
-// Generate a list 
-module.exports.watchFiles = watchFiles = [
+const watchFiles = [
     "*",
     "**/*",
     "**/**/*",
 ];
+
+module.exports.name = "misc";
+module.exports.watchFiles = watchFiles;
 module.exports.task = task = function() {
     return new Promise((resolve, reject) => {
         gulp.src(watchFiles, { 
