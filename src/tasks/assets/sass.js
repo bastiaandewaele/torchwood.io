@@ -14,7 +14,10 @@ const localhost = require(bootstrap.app+"/src/tasks/localhost");
 // Properties
 const settings = require(bootstrap.app+"/src/settings");
 const files = bootstrap.sass;
-const watchFiles = [
+
+module.exports.name = "sass";
+module.exports.files = files;
+const watchFiles = module.exports.watchFiles = [
     "*.scss", 
     "**/*.scss", 
     "**/**/*.scss", 
@@ -22,11 +25,7 @@ const watchFiles = [
     "**/*.sass", 
     "**/**/*.sass", 
 ];
-
-module.exports.name = "sass";
-module.exports.files = files;
-module.exports.watchFiles = watchFiles;
-module.exports.task = task = function() {     
+const task = module.exports.task = function() {     
     return Promise.all(Array.from(files.keys()).map(key => new Promise((resolve, reject) => {
         const value = files.get(key);
 
@@ -70,6 +69,4 @@ module.exports.watch = function() {
         // only reload when settings.localhost is set to true
         settings.localhost === true ? localhost.browserSync.reload : task
     );
-
-    return task();
 };

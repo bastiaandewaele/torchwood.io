@@ -10,15 +10,14 @@ const localhost = require(bootstrap.app+"/src/tasks/localhost");
 
 // Properties
 const settings = require(bootstrap.app+"/src/settings");
-const watchFiles = [
+
+module.exports.name = "misc";
+const watchFiles = module.exports.watchFiles = [
     "*",
     "**/*",
     "**/**/*",
 ];
-
-module.exports.name = "misc";
-module.exports.watchFiles = watchFiles;
-module.exports.task = task = function() {
+const task = module.exports.task = function() {
     return new Promise((resolve, reject) => {
         gulp.src(watchFiles, { 
             cwd: bootstrap.src + "/misc",
@@ -36,6 +35,4 @@ module.exports.watch = function() {
         // only reload when settings.localhost is set to true
         settings.localhost === true ? localhost.browserSync.reload : task
     );
-
-    return task();
 };

@@ -12,16 +12,16 @@ const localhost = require(bootstrap.app+"/src/tasks/localhost");
 // Properties
 const settings = require(bootstrap.app+"/src/settings");
 const files = bootstrap.concat;
-const watchFiles = [
+ 
+
+module.exports.name = "concat";
+module.exports.files = files;
+const watchFiles = module.exports.watchFiles = [
     "*.*", 
     "**/*.*", 
     "**/**/*.*", 
 ];
-
-module.exports.name = "concat";
-module.exports.files = files;
-module.exports.watchFiles = watchFiles;
-module.exports.task = task = function () {
+const task = module.exports.task = function () {
     return new Promise((resolve, reject) => {
         for (var [key, filesList] of files) {        
             let exportDirectory = path.join(bootstrap.cwd, settings.export);   
@@ -45,6 +45,4 @@ module.exports.watch = function() {
         // only reload when settings.localhost is set to true
         settings.localhost === true ? localhost.browserSync.reload : task
     );
-
-    return task();
 };

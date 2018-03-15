@@ -17,16 +17,15 @@ const localhost = require(bootstrap.app+"/src/tasks/localhost");
 // Properties
 const settings = require(bootstrap.app+"/src/settings");
 const files = bootstrap.js;
-const watchFiles = [
+
+module.exports.name = "js";
+module.exports.files = files;
+const watchFiles = module.exports.watchFiles = [
     "*.js", 
     "**/*.js", 
     "**/**/*.js", 
 ];
-
-module.exports.name = "js";
-module.exports.files = files;
-module.exports.watchFiles = watchFiles;
-module.exports.task = task = function () {
+const task = module.exports.task = function () {
     return Promise.all(Array.from(files.keys()).map(key => new Promise((resolve, reject) => {
         const value = files.get(key); 
         let exportDirectory = path.dirname(path.join(bootstrap.cwd, settings.export, key));
@@ -77,6 +76,4 @@ module.exports.watch = function() {
         // only reload when settings.localhost is set to true
         settings.localhost === true ? localhost.browserSync.reload : task
     );
-
-    return task();
 };

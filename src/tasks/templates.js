@@ -15,12 +15,6 @@ const nunjucks = require('nunjucks');
 const env = new nunjucks.Environment(new nunjucks.FileSystemLoader(bootstrap.src+"/templates"), {});
 const version = Date.now(); // timestamp reloading stylsheets and JS (cache)
 
-const watchFiles = [
-    "*.html", 
-    "**/*.html", 
-    "**/**/*.html", 
-];
-
 // Nunjucks: set globals
 env.addGlobal("version", version);
 env.addGlobal("assets", {
@@ -65,8 +59,12 @@ if (settingsTemplates.hasOwnProperty("filters")) {
 
 // Export
 module.exports.name = "templates";
-module.exports.watchFiles = watchFiles;
-module.exports.task = task = function() {
+const watchFiles = module.exports.watchFiles = [
+    "*.html", 
+    "**/*.html", 
+    "**/**/*.html", 
+];
+const task = module.exports.task = function() {
     return new Promise((resolve, reject) => {
         gulp.src(bootstrap.src+"/templates/*.html")
         // compile nunjucks templates
@@ -93,6 +91,4 @@ module.exports.watch = watch = function() {
         // only reload when settings.localhost is set to true
         settings.localhost === true ? localhost.browserSync.reload : task
     );
-
-    return task();
 };
