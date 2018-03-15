@@ -3,7 +3,7 @@ const process = require("process");
 const path = require("path");
 const fs = require("fs");
 const image = require("gulp-image");
-const clc = require("cli-color");
+const chalk = require("chalk");
 
 // Custom 
 const bootstrap = require("../../../bootstrap");
@@ -47,7 +47,7 @@ const task = module.exports.task = function(files) {
         }))
         .pipe(gulp.dest(path.join(bootstrap.cwd, settings.export)+"/images"))
         .on('end', () => {
-            console.log(clc.yellow(`+ done compressing images from the directory /src/images`));
+            console.log(chalk.yellow(`+ done compressing images from the directory /src/images`));
             resolve();
         });
     });

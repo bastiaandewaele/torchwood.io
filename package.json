@@ -1,6 +1,6 @@
 {
   "name": "torchwood.io",
-  "version": "0.1.30",
+  "version": "0.1.31",
   "description": "",
   "main": "index.js",
   "author": {
@@ -14,7 +14,7 @@
   },
   "bugs": {
     "url": "https://github.com/altiske/torchwood.io/issues"
-},
+  },
   "license": "GPL3",
   "dependencies": {
     "babel-core": "^6.26.0",
@@ -26,12 +26,13 @@
     "babelify": "^8.0.0",
     "browser-sync": "^2.23.6",
     "browserify": "^15.2.0",
-    "cli-color": "^1.2.0",
+    "chalk": "^2.3.2",
     "file-extension": "^4.0.2",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^4.1.0",
     "gulp-babel": "^7.0.1",
     "gulp-concat": "^2.6.1",
+    "gulp-if": "^2.0.2",
     "gulp-image": "^4.2.0",
     "gulp-inline-css": "^3.1.2",
     "gulp-js-import": "^1.0.6",

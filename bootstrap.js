@@ -5,7 +5,7 @@ const path = require("path");
 const fs = require("fs");
 const fileExtension = require('file-extension');
 const gulpSass = require("gulp-sass");
-const clc = require("cli-color");
+const chalk = require("chalk");
 const settings = require("./src/settings");
 
 // Properties related to task with files and need validation!
@@ -32,7 +32,7 @@ module.exports.boot = function() {
 
         // 1. check on file type
         if (!["js", "sass", "scss"].includes(extention)) {
-          console.log(`${clc.red("ERROR: ")} the filetype of the file '${clc.yellow(value)}' ins't allowed inside te property ${clc.blue(module.exports.assets)}. Only .js, .scss, .sass is allowed`);
+          console.log(`${chalk.red("ERROR: ")} the filetype of the file '${chalk.yellow(value)}' ins't allowed inside te property ${chalk.blue(module.exports.assets)}. Only .js, .scss, .sass is allowed`);
           process.exit();
         }
 
@@ -45,7 +45,7 @@ module.exports.boot = function() {
 
         if (!fs.existsSync(file)) {
           // Block compiling when a file doesn't exist
-          console.log(`${clc.red("ERROR: ")} the file '${clc.yellow(file)}' doesn't exist`);
+          console.log(`${chalk.red("ERROR: ")} the file '${chalk.yellow(file)}' doesn't exist`);
           process.exit();
         }
 
@@ -71,7 +71,7 @@ module.exports.boot = function() {
           const files = settings.files.concat[key];
   
           if (!Array.isArray(files)) {
-            console.warn(clc.red(`property ${key} of concat isn't of the type Array`));
+            console.warn(chalk.red(`property ${key} of concat isn't of the type Array`));
             process.exit();
           }
 
@@ -80,7 +80,7 @@ module.exports.boot = function() {
             const file = path.join(process.cwd()+"/src/concat", value);
 
             if (!fs.existsSync(file)) {
-              console.log(clc.red(`the file '${value}' doesn't exist inside te property module.exports.concat`));
+              console.log(chalk.red(`the file '${value}' doesn't exist inside te property module.exports.concat`));
               process.exit(); // kill the task before a task can be performed      
             }
           });

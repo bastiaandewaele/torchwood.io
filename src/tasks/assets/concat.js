@@ -3,7 +3,7 @@ const process = require("process");
 const path = require("path");
 const fs = require("fs");
 const concat = require("gulp-concat");
-const clc = require("cli-color");
+const chalk = require("chalk");
 
 // Custom 
 const bootstrap = require("../../../bootstrap");
@@ -33,7 +33,7 @@ const task = module.exports.task = function () {
             .pipe(concat(key))
             .pipe(gulp.dest(exportDirectory))
             .on('end', () => {
-                console.log(clc.yellow(`+ done concatenating files from the directory /src/concat`));
+                console.log(chalk.yellow(`+ done concatenating files from the directory /src/concat`));
                 resolve();
             });
         }

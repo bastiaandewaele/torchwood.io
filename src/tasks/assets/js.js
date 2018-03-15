@@ -8,7 +8,7 @@ const browserify = require('browserify');
 const buffer = require('vinyl-buffer');
 const source = require('vinyl-source-stream');
 const notify = require("gulp-notify");
-const clc = require("cli-color");
+const chalk = require("chalk");
 
 // Custom 
 const bootstrap = require("../../../bootstrap");
@@ -50,8 +50,8 @@ const task = module.exports.task = function () {
         }))
         .bundle()
         .on("error", function (error) { 
-            console.log(clc.yellow("JS error:"));
-            console.error(clc.red(error));
+            console.log(chalk.yellow("JS error:"));
+            console.error(chalk.red(error));
         })
         .on("error",notify.onError(function (error) {
             if (settings.notify === true) {
@@ -65,7 +65,7 @@ const task = module.exports.task = function () {
         .pipe(sourcemaps.write())// inline .map
         .pipe(gulp.dest(exportDirectory))
         .on('end', () => {
-            console.log(clc.yellow(`+ done compiling \`src/js/${key}\` successfully`));
+            console.log(chalk.yellow(`+ done compiling \`src/js/${key}\` successfully`));
             resolve();
         });
     })));

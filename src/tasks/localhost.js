@@ -2,7 +2,7 @@ const process = require("process");
 const path = require("path");
 const gulp = require("gulp");
 const browserSync = require('browser-sync').create();
-const clc = require("cli-color");
+const chalk = require("chalk");
 
 // Custom code
 const bootstrap = require("../../bootstrap");
@@ -19,7 +19,7 @@ module.exports.browserSync = browserSync;
  */
 module.exports.name = "localhost";
 module.exports.task = task = function() {
-  console.log(clc.blue("torchwood.io: ")+clc.green("booting Browsersync\n"));
+  console.log(chalk.blue("torchwood.io: ")+chalk.green("booting Browsersync\n"));
   
   browserSync.init(Object.assign(settingsLocalhost, {
     server: {

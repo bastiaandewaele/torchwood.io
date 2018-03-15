@@ -4,7 +4,7 @@ const sourcemaps = require("gulp-sourcemaps");
 const sass = require("gulp-sass");
 const autoprefixer = require("gulp-autoprefixer");
 const notify = require("gulp-notify");
-const clc = require("cli-color");
+const chalk = require("chalk");
 const through = require("through2");
 
 // Custom 
@@ -42,8 +42,8 @@ const task = module.exports.task = function() {
                 stats: false
             })
             .on("error", error => {
-                console.log(clc.yellow("The following error occurred:"));
-                console.log(clc.red(error));
+                console.log(chalk.yellow("The following error occurred:"));
+                console.log(chalk.red(error));
             })
             .on("error", notify.onError(error => { 
                 if (settings.notify === true) {
@@ -59,7 +59,7 @@ const task = module.exports.task = function() {
         .pipe(sourcemaps.write())// inline .map
         .pipe(gulp.dest(exportDirectory))
         .on('end', () => {
-            console.log(clc.yellow(`+ done compiling \`src/sass/${key}\` successfully`));
+            console.log(chalk.yellow(`+ done compiling \`src/sass/${key}\` successfully`));
             resolve();
         });
     })));

@@ -1,5 +1,5 @@
 const gulp = require("gulp");
-const clc = require("cli-color");
+const chalk = require("chalk");
 const process = require("process");
 const path = require("path");
 const fs = require("fs");
@@ -25,7 +25,7 @@ const task = module.exports.task = function() {
         })
         .pipe(gulp.dest(path.join(bootstrap.cwd, settings.export)))
         .on('end', () => {
-            console.log(clc.yellow(`+ done copying files from the /src/misc directory`));
+            console.log(chalk.yellow(`+ done copying files from the /src/misc directory`));
             resolve();
         });
     });

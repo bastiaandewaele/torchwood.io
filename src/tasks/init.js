@@ -2,7 +2,7 @@ const process = require("process");
 const path = require("path");
 const gulp = require("gulp");
 const fs = require("fs");
-const clc = require('cli-color');
+const chalk = require('chalk');
 
 // Custom code
 const bootstrap = require("../../bootstrap");
@@ -10,9 +10,9 @@ const bootstrap = require("../../bootstrap");
 if (!fs.existsSync(bootstrap.cwd+"/torchwood.config.js")) {
     // Create config file if it doesn't exists yet
     fs.writeFileSync(bootstrap.cwd+"/torchwood.config.js", fs.readFileSync(__dirname+"/../../configs/sample.torchwood.config.js"));
-    console.log(clc.green(`+ the file torchwood.config.js has been succesfully been added inside the directory ${bootstrap.cwdsrc}`));
+    console.log(chalk.green(`+ the file torchwood.config.js has been succesfully been added inside the directory ${bootstrap.cwdsrc}`));
 } else {
-    console.log(clc.red(`- torchwood.config.js already exists in your directory (${bootstrap.cwd})`));
+    console.log(chalk.red(`- torchwood.config.js already exists in your directory (${bootstrap.cwd})`));
     process.exit();
 }
 
@@ -40,10 +40,10 @@ if (!fs.existsSync(bootstrap.src)) {
     fs.mkdirSync(bootstrap.src+"/templates/partials", 0755);
     fs.writeFileSync(bootstrap.src+"/templates/partials/header.html", fs.readFileSync(__dirname+"/../../samples/templates/partials/header.html"));
 
-    console.log(clc.green(`+ the directory /src has been succesfully been added inside the directory ${bootstrap.src}`));
+    console.log(chalk.green(`+ the directory /src has been succesfully been added inside the directory ${bootstrap.src}`));
 
 } else {
-    console.log(clc.red(`- The directory /src already exists in your directory (${bootstrap.src})`));
+    console.log(chalk.red(`- The directory /src already exists in your directory (${bootstrap.src})`));
     process.exit();
 }
 

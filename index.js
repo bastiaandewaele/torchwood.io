@@ -1,12 +1,12 @@
 const fs = require("fs");
 const path = require("path");
 const process = require("process");
-const clc = require("cli-color");
+const chalk = require("chalk");
 
 // get requested task
 const task = process.argv[2]; 
 
-console.log(clc.blue("torchwood.io: ")+clc.greenBright("booting...\n"));
+console.log(chalk.blue("torchwood.io: ")+chalk.greenBright("booting...\n"));
 
 // list of tasks for initializing a new project
 if (["help", "init"].includes(task)) {
@@ -23,12 +23,12 @@ const bootstrap = require("./bootstrap");
 // Before we start running tasks we need to check if the cwd contains atorchwood.config.js file 
 // and also an src directory.
 if (!fs.existsSync(bootstrap.cwd+"/torchwood.config.js")) {
-  console.warn(clc.red(`\`torchwood.config.js\` doesn't exists in your directory (${bootstrap.cwd}). \n Please use \`torchwood init\` to create a config.`));
+  console.warn(chalk.red(`\`torchwood.config.js\` doesn't exists in your directory (${bootstrap.cwd}). \n Please use \`torchwood init\` to create a config.`));
   process.exit();
 }
 
 if (!fs.existsSync(bootstrap.src)) {
-  console.warn(clc.red(`The directory \`src\` doesn't exists inside ${bootstrap.cwd}. \n Please use \`torchwood init\` to create the src directory.`));
+  console.warn(chalk.red(`The directory \`src\` doesn't exists inside ${bootstrap.cwd}. \n Please use \`torchwood init\` to create the src directory.`));
   process.exit();
 }
 
@@ -65,10 +65,10 @@ if (tasks.length > 0) {
     if (process.argv.includes("localhost")) tasks.push(require(bootstrap.app+"/src/tasks/localhost"));
 
     if (process.argv.includes("--watch")) {
-      console.log(clc.green("\nwatchers:"));    
+      console.log(chalk.green("\nwatchers:"));    
       tasks.forEach(task => {
         if (task.hasOwnProperty("watch")) {              
-          console.log(clc.green("✓ ")+task.name);  
+          console.log(chalk.green("✓ ")+task.name);  
         }
       });
       tasks.forEach(task => {
@@ -112,10 +112,10 @@ if (tasks.length > 0) {
 
     Promise.all(tasks.map(task => task.task())).then(() => {
       if (process.argv.includes("--watch")) {
-        console.log(clc.green("\nwatchers:"));    
+        console.log(chalk.green("\nwatchers:"));    
         tasks.forEach(task => {
           if (task.hasOwnProperty("watch")) {            
-            console.log(clc.green("✓ ")+task.name);  
+            console.log(chalk.green("✓ ")+task.name);  
           }
         });
         tasks.forEach(task => {
