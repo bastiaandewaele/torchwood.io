@@ -1,4 +1,5 @@
 {
+  "name": "torchwood.io",
   "author": {
     "name": "Bastiaan Dewaele",
     "email": "bastiaan.dewaele@outlook.com",
@@ -42,7 +43,6 @@
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
   },
-  "deprecated": false,
   "description": "*Work in progress*",
   "engines": {
     "node": ">=8.0.0"
@@ -50,7 +50,6 @@
   "homepage": "https://github.com/altiske/torchwood.io#readme",
   "license": "GPL3",
   "main": "index.js",
-  "name": "torchwood.io",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/altiske/torchwood.io.git"
