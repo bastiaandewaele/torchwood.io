@@ -47,7 +47,7 @@ const task = module.exports.task = function() {
         get js () {
             let template = "";
             if (bootstrap.js.size > 0) {
-                for (let [file, value] of bootstrap.sass) {
+                for (let [file, value] of bootstrap.js) {
                     // add `v` queryString as timestamp to force assets reload (when devtools are not open)
                     template+= `\n<script type="text/javascript" src="${file}?v=${version}"></script>`;
                 }
