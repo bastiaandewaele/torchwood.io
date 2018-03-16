@@ -10,7 +10,7 @@ console.log(chalk.blue("torchwood.io: ")+chalk.greenBright("booting...\n"));
 
 // list of tasks for initializing a new project
 if (["help", "init"].includes(task)) {
-  require("./tasks/"+task);
+  require(__dirname+"/src/tasks/"+task+'.js');
   process.exit();
 }
 
@@ -83,9 +83,6 @@ if (tasks.length > 0) {
 } else {
   // When no specific task is requested; perform everything that has
   // been set to true inside the config file torchwood.config.js
-
-  if (!fs.existsSync(path.join(bootstrap.cwd, settings.export))) fs.mkdirSync(path.join(bootstrap.cwd, settings.export), 0755);
-
 
   // On every run delete alls files and sub directories (export / dist directory)
   const files = fs.readdirSync(path.join(bootstrap.cwd, settings.export)).filter(file => file !== '.git'); // keep .git directory

@@ -1,21 +1,37 @@
 {
-  "name": "torchwood.io",
-  "version": "0.1.33",
-  "description": "",
-  "main": "index.js",
+  "_from": "torchwood.io@^0.1.31",
+  "_id": "torchwood.io@0.1.32",
+  "_inBundle": false,
+  "_integrity": "sha512-dojFGBy0UlLjSuU1UfMpN8iVVEdFwAWxCJE5VmFYcLGbmo8e4Y5UH3bY/CukEklHz4KJkc/XT0WdxAjlh/BEDg==",
+  "_location": "/torchwood.io",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "torchwood.io@^0.1.31",
+    "name": "torchwood.io",
+    "escapedName": "torchwood.io",
+    "rawSpec": "^0.1.31",
+    "saveSpec": null,
+    "fetchSpec": "^0.1.31"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/torchwood.io/-/torchwood.io-0.1.32.tgz",
+  "_shasum": "68e2937cfb3d609b3211f58cb616af9222ddf48e",
+  "_spec": "torchwood.io@^0.1.31",
+  "_where": "/Users/bastiaandewaele/Documents/designboard-website-wordpress/torchwood",
   "author": {
     "name": "Bastiaan Dewaele",
     "email": "bastiaan.dewaele@outlook.com",
     "url": "https://www.linkedin.com/in/bastiaan-dewaele-46431085/"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/altiske/torchwood.io"
-  },
   "bugs": {
     "url": "https://github.com/altiske/torchwood.io/issues"
   },
-  "license": "GPL3",
+  "bundleDependencies": false,
   "dependencies": {
     "babel-core": "^6.26.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
@@ -51,7 +67,18 @@
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
   },
+  "deprecated": false,
+  "description": "*Work in progress*",
   "engines": {
     "node": ">=8.0.0"
-  }
+  },
+  "homepage": "https://github.com/altiske/torchwood.io#readme",
+  "license": "GPL3",
+  "main": "index.js",
+  "name": "torchwood.io",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/altiske/torchwood.io.git"
+  },
+  "version": "0.1.32"
 }
