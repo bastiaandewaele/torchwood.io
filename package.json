@@ -1,28 +1,4 @@
 {
-  "_from": "torchwood.io@^0.1.32",
-  "_id": "torchwood.io@0.1.32",
-  "_inBundle": false,
-  "_integrity": "sha512-dojFGBy0UlLjSuU1UfMpN8iVVEdFwAWxCJE5VmFYcLGbmo8e4Y5UH3bY/CukEklHz4KJkc/XT0WdxAjlh/BEDg==",
-  "_location": "/torchwood.io",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "range",
-    "registry": true,
-    "raw": "torchwood.io@^0.1.31",
-    "name": "torchwood.io",
-    "escapedName": "torchwood.io",
-    "rawSpec": "^0.1.31",
-    "saveSpec": null,
-    "fetchSpec": "^0.1.31"
-  },
-  "_requiredBy": [
-    "#USER",
-    "/"
-  ],
-  "_resolved": "https://registry.npmjs.org/torchwood.io/-/torchwood.io-0.1.32.tgz",
-  "_shasum": "68e2937cfb3d609b3211f58cb616af9222ddf48e",
-  "_spec": "torchwood.io@^0.1.31",
-  "_where": "/Users/bastiaandewaele/Documents/designboard-website-wordpress/torchwood",
   "author": {
     "name": "Bastiaan Dewaele",
     "email": "bastiaan.dewaele@outlook.com",
@@ -31,7 +7,6 @@
   "bugs": {
     "url": "https://github.com/altiske/torchwood.io/issues"
   },
-  "bundleDependencies": false,
   "dependencies": {
     "babel-core": "^6.26.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
