@@ -6,7 +6,6 @@ const fs = require("fs");
 const fileExtension = require('file-extension');
 const gulpSass = require("gulp-sass");
 const chalk = require("chalk");
-const settings = require("./src/settings");
 
 // Properties related to task with files and need validation!
 const sass = new Map;
@@ -19,6 +18,7 @@ const src = module.exports.src = process.cwd() + "/src";
 const app = module.exports.app = __dirname;
 
 module.exports.boot = function() {
+  const settings = require("./src/settings");
 
   if (settings.assets === true) {
     if (

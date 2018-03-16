@@ -10,7 +10,7 @@ console.log(chalk.blue("torchwood.io: ")+chalk.greenBright("booting...\n"));
 
 // list of tasks for initializing a new project
 if (["help", "init"].includes(task)) {
-  require("./tasks/"+task);
+  require(__dirname+"/src/tasks/"+task+'.js');
   process.exit();
 }
 
